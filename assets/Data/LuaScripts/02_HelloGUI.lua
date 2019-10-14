@@ -40,13 +40,6 @@ function Start()
 end
 
 function InitControls()
-    -- Create a ProgressBar
-    local progressBar = ProgressBar:new()
-    progressBar:SetName("ProgressBar")
-    progressBar.minHeight = 24
-    progressBar.range = 100
-    progressBar.value = 60
-
     -- Create a CheckBox
     local checkBox = CheckBox:new()
     checkBox:SetName("CheckBox")
@@ -62,13 +55,11 @@ function InitControls()
     lineEdit.minHeight = 24
 
     -- Add controls to Window
-    window:AddChild(progressBar)
     window:AddChild(checkBox)
     window:AddChild(button)
     window:AddChild(lineEdit)
 
     -- Apply previously set default style
-    progressBar:SetStyleAuto()
     checkBox:SetStyleAuto()
     button:SetStyleAuto()
     lineEdit:SetStyleAuto()
