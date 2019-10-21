@@ -58,7 +58,7 @@ function Start()
     -- We could have used #ifdef to init the connection string during compile time, but below shows how it is done during runtime
     -- The "URHO3D_DATABASE_ODBC" compiler define is set when URHO3D_DATABASE_ODBC build option is enabled
     -- Connect to a temporary in-memory SQLite database
-    connection = database:Connect(GetDBAPI() == DBAPI_ODBC and "Driver=SQLite3;Database=:memory:" or "file://")
+    connection = database:Connect(GetDBAPI() == DBAPI_SQLITE and ":memory:")
 
     -- Subscribe to database cursor event to loop through query resultset
     SubscribeToEvent("DbCursor", "HandleDbCursor")
