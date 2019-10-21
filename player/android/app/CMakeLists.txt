@@ -17,6 +17,9 @@ add_definitions(-DURHO3D_PROFILING)
 add_definitions(-DURHO3D_LOGGING)
 add_definitions(-DURHO3D_THREADING)
 
+add_definitions (-DSQLITE_USE_URI=1 -DSQLITE_ENABLE_COLUMN_METADATA -DSQLITE_SOUNDEX)
+add_definitions (-DHAVE_STDINT_H -DHAVE_INTTYPES_H -DHAVE_MALLOC_H -DHAVE_MALLOC_USABLE_SIZE)
+
 add_definitions (-DRAKNET_ENABLE_STATIC -D_RAKNET_SUPPORT_NatTypeDetectionServer=0 -D_RAKNET_SUPPORT_UDPForwarder=0 -D_RAKNET_SUPPORT_TwoWayAuthentication=0)
 add_definitions (-D_RAKNET_SUPPORT_CloudClient=0 -D_RAKNET_SUPPORT_CloudServer=0 -D_RAKNET_SUPPORT_ConnectionGraph2=0 -D_RAKNET_SUPPORT_NatPunchthroughServer=0)
 add_definitions (-D_RAKNET_SUPPORT_RelayPlugin=0 -D_RAKNET_SUPPORT_LibVoice=0 -D_RAKNET_SUPPORT_DynDNS=0 -D_RAKNET_SUPPORT_HTTPConnection2=0 -D_RAKNET_SUPPORT_HTTPConnection=0)
@@ -41,6 +44,7 @@ file(GLOB_RECURSE SOURCE_FILES_GAME
   ${PROJ_DIR}/thirdparty/DetourCrowd/*.cpp
   ${PROJ_DIR}/thirdparty/DetourTileCache/*.cpp
   ${PROJ_DIR}/thirdparty/Civetweb/*.c
+  ${PROJ_DIR}/thirdparty/SQLite/*.c
   ${PROJ_DIR}/thirdparty/Bullet/*.cpp
   ${PROJ_DIR}/thirdparty/slikenet/*.cpp
   ${PROJ_DIR}/thirdparty/PugiXml/*.cpp
