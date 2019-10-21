@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2017 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -18,8 +18,6 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-
-// Modified by Lasse Oorni for Urho3D
 
 #if defined(__clang_analyzer__) && !defined(SDL_DISABLE_ANALYZE_MACROS)
 #define SDL_DISABLE_ANALYZE_MACROS 1
@@ -40,7 +38,17 @@ SDL_atan(double x)
     return atan(x);
 #else
     return SDL_uclibc_atan(x);
-#endif /* HAVE_ATAN */
+#endif
+}
+
+float
+SDL_atanf(float x)
+{
+#if defined(HAVE_ATANF)
+    return atanf(x);
+#else
+    return (float)SDL_atan((double)x);
+#endif
 }
 
 double
@@ -50,7 +58,17 @@ SDL_atan2(double x, double y)
     return atan2(x, y);
 #else
     return SDL_uclibc_atan2(x, y);
-#endif /* HAVE_ATAN2 */
+#endif
+}
+
+float
+SDL_atan2f(float x, float y)
+{
+#if defined(HAVE_ATAN2F)
+    return atan2f(x, y);
+#else
+    return (float)SDL_atan2((double)x, (double)y);
+#endif
 }
 
 double
@@ -73,6 +91,16 @@ SDL_acos(double val)
 #endif
 }
 
+float
+SDL_acosf(float val)
+{
+#if defined(HAVE_ACOSF)
+    return acosf(val);
+#else
+    return (float)SDL_acos((double)val);
+#endif
+}
+
 double
 SDL_asin(double val)
 {
@@ -89,6 +117,16 @@ SDL_asin(double val)
 #endif
 }
 
+float
+SDL_asinf(float val)
+{
+#if defined(HAVE_ASINF)
+    return asinf(val);
+#else
+    return (float)SDL_asin((double)val);
+#endif
+}
+
 double
 SDL_ceil(double x)
 {
@@ -102,6 +140,16 @@ SDL_ceil(double x)
     }
     return integer;
 #endif /* HAVE_CEIL */
+}
+
+float
+SDL_ceilf(float x)
+{
+#if defined(HAVE_CEILF)
+    return ceilf(x);
+#else
+    return (float)SDL_ceil((float)x);
+#endif
 }
 
 double
@@ -122,6 +170,16 @@ SDL_copysign(double x, double y)
 #endif /* HAVE_COPYSIGN */
 }
 
+float
+SDL_copysignf(float x, float y)
+{
+#if defined(HAVE_COPYSIGNF)
+    return copysignf(x, y);
+#else
+    return (float)SDL_copysign((double)x, (double)y);
+#endif
+}
+
 double
 SDL_cos(double x)
 {
@@ -129,7 +187,7 @@ SDL_cos(double x)
     return cos(x);
 #else
     return SDL_uclibc_cos(x);
-#endif /* HAVE_COS */
+#endif
 }
 
 float
@@ -143,13 +201,43 @@ SDL_cosf(float x)
 }
 
 double
+SDL_exp(double x)
+{
+#if defined(HAVE_EXP)
+    return exp(x);
+#else
+    return SDL_uclibc_exp(x);
+#endif
+}
+
+float
+SDL_expf(float x)
+{
+#if defined(HAVE_EXPF)
+    return expf(x);
+#else
+    return (float)SDL_exp((double)x);
+#endif
+}
+
+double
 SDL_fabs(double x)
 {
 #if defined(HAVE_FABS)
-    return fabs(x); 
+    return fabs(x);
 #else
     return SDL_uclibc_fabs(x);
-#endif /* HAVE_FABS */
+#endif
+}
+
+float
+SDL_fabsf(float x)
+{
+#if defined(HAVE_FABSF)
+    return fabsf(x);
+#else
+    return (float)SDL_fabs((double)x);
+#endif
 }
 
 double
@@ -159,7 +247,37 @@ SDL_floor(double x)
     return floor(x);
 #else
     return SDL_uclibc_floor(x);
-#endif /* HAVE_FLOOR */
+#endif
+}
+
+float
+SDL_floorf(float x)
+{
+#if defined(HAVE_FLOORF)
+    return floorf(x);
+#else
+    return (float)SDL_floor((double)x);
+#endif
+}
+
+double
+SDL_fmod(double x, double y)
+{
+#if defined(HAVE_FMOD)
+    return fmod(x, y);
+#else
+    return SDL_uclibc_fmod(x, y);
+#endif
+}
+
+float
+SDL_fmodf(float x, float y)
+{
+#if defined(HAVE_FMODF)
+    return fmodf(x, y);
+#else
+    return (float)SDL_fmod((double)x, (double)y);
+#endif
 }
 
 double
@@ -169,7 +287,37 @@ SDL_log(double x)
     return log(x);
 #else
     return SDL_uclibc_log(x);
-#endif /* HAVE_LOG */
+#endif
+}
+
+float
+SDL_logf(float x)
+{
+#if defined(HAVE_LOGF)
+    return logf(x);
+#else
+    return (float)SDL_log((double)x);
+#endif
+}
+
+double
+SDL_log10(double x)
+{
+#if defined(HAVE_LOG10)
+    return log10(x);
+#else
+    return SDL_uclibc_log10(x);
+#endif
+}
+
+float
+SDL_log10f(float x)
+{
+#if defined(HAVE_LOG10F)
+    return log10f(x);
+#else
+    return (float)SDL_log10((double)x);
+#endif
 }
 
 double
@@ -179,7 +327,17 @@ SDL_pow(double x, double y)
     return pow(x, y);
 #else
     return SDL_uclibc_pow(x, y);
-#endif /* HAVE_POW */
+#endif
+}
+
+float
+SDL_powf(float x, float y)
+{
+#if defined(HAVE_POWF)
+    return powf(x, y);
+#else
+    return (float)SDL_pow((double)x, (double)y);
+#endif
 }
 
 double
@@ -195,7 +353,17 @@ SDL_scalbn(double x, int n)
     return ldexp(x, n);
 #else
     return SDL_uclibc_scalbn(x, n);
-#endif /* HAVE_SCALBN */
+#endif
+}
+
+float
+SDL_scalbnf(float x, int n)
+{
+#if defined(HAVE_SCALBNF)
+    return scalbnf(x, n);
+#else
+    return (float)SDL_scalbn((double)x, n);
+#endif
 }
 
 double
@@ -205,7 +373,7 @@ SDL_sin(double x)
     return sin(x);
 #else
     return SDL_uclibc_sin(x);
-#endif /* HAVE_SIN */
+#endif
 }
 
 float 
@@ -215,7 +383,7 @@ SDL_sinf(float x)
     return sinf(x);
 #else
     return (float)SDL_sin((double)x);
-#endif /* HAVE_SINF */
+#endif
 }
 
 double
@@ -281,7 +449,703 @@ int SDL_tolower(int x) { return ((x) >= 'A') && ((x) <= 'Z') ? ('a'+((x)-'A')) :
 
 
 #ifndef HAVE_LIBC
-// Urho3D: disable MSVC runtime intrinsic replacements
+/* These are some C runtime intrinsics that need to be defined */
+
+#if defined(_MSC_VER)
+
+#ifndef __FLTUSED__
+#define __FLTUSED__
+__declspec(selectany) int _fltused = 1;
+#endif
+
+/* The optimizer on Visual Studio 2005 and later generates memcpy() calls */
+#if (_MSC_VER >= 1400) && defined(_WIN64) && !defined(_DEBUG) && !(_MSC_VER >= 1900 && defined(_MT))
+#include <intrin.h>
+
+#pragma function(memcpy)
+void * memcpy ( void * destination, const void * source, size_t num )
+{
+    const Uint8 *src = (const Uint8 *)source;
+    Uint8 *dst = (Uint8 *)destination;
+    size_t i;
+    
+    /* All WIN64 architectures have SSE, right? */
+    if (!((uintptr_t) src & 15) && !((uintptr_t) dst & 15)) {
+        __m128 values[4];
+        for (i = num / 64; i--;) {
+            _mm_prefetch(src, _MM_HINT_NTA);
+            values[0] = *(__m128 *) (src + 0);
+            values[1] = *(__m128 *) (src + 16);
+            values[2] = *(__m128 *) (src + 32);
+            values[3] = *(__m128 *) (src + 48);
+            _mm_stream_ps((float *) (dst + 0), values[0]);
+            _mm_stream_ps((float *) (dst + 16), values[1]);
+            _mm_stream_ps((float *) (dst + 32), values[2]);
+            _mm_stream_ps((float *) (dst + 48), values[3]);
+            src += 64;
+            dst += 64;
+        }
+        num &= 63;
+    }
+
+    while (num--) {
+        *dst++ = *src++;
+    }
+    return destination;
+}
+#endif /* _MSC_VER == 1600 && defined(_WIN64) && !defined(_DEBUG) */
+
+#ifdef _M_IX86
+
+/* Float to long */
+void
+__declspec(naked)
+_ftol()
+{
+    /* *INDENT-OFF* */
+    __asm {
+        push        ebp
+        mov         ebp,esp
+        sub         esp,20h
+        and         esp,0FFFFFFF0h
+        fld         st(0)
+        fst         dword ptr [esp+18h]
+        fistp       qword ptr [esp+10h]
+        fild        qword ptr [esp+10h]
+        mov         edx,dword ptr [esp+18h]
+        mov         eax,dword ptr [esp+10h]
+        test        eax,eax
+        je          integer_QnaN_or_zero
+arg_is_not_integer_QnaN:
+        fsubp       st(1),st
+        test        edx,edx
+        jns         positive
+        fstp        dword ptr [esp]
+        mov         ecx,dword ptr [esp]
+        xor         ecx,80000000h
+        add         ecx,7FFFFFFFh
+        adc         eax,0
+        mov         edx,dword ptr [esp+14h]
+        adc         edx,0
+        jmp         localexit
+positive:
+        fstp        dword ptr [esp]
+        mov         ecx,dword ptr [esp]
+        add         ecx,7FFFFFFFh
+        sbb         eax,0
+        mov         edx,dword ptr [esp+14h]
+        sbb         edx,0
+        jmp         localexit
+integer_QnaN_or_zero:
+        mov         edx,dword ptr [esp+14h]
+        test        edx,7FFFFFFFh
+        jne         arg_is_not_integer_QnaN
+        fstp        dword ptr [esp+18h]
+        fstp        dword ptr [esp+18h]
+localexit:
+        leave
+        ret
+    }
+    /* *INDENT-ON* */
+}
+
+void
+_ftol2_sse()
+{
+    _ftol();
+}
+
+/* 64-bit math operators for 32-bit systems */
+void
+__declspec(naked)
+_allmul()
+{
+    /* *INDENT-OFF* */
+    __asm {
+        mov         eax, dword ptr[esp+8]
+        mov         ecx, dword ptr[esp+10h]
+        or          ecx, eax
+        mov         ecx, dword ptr[esp+0Ch]
+        jne         hard
+        mov         eax, dword ptr[esp+4]
+        mul         ecx
+        ret         10h
+hard:
+        push        ebx
+        mul         ecx
+        mov         ebx, eax
+        mov         eax, dword ptr[esp+8]
+        mul         dword ptr[esp+14h]
+        add         ebx, eax
+        mov         eax, dword ptr[esp+8]
+        mul         ecx
+        add         edx, ebx
+        pop         ebx
+        ret         10h
+    }
+    /* *INDENT-ON* */
+}
+
+void
+__declspec(naked)
+_alldiv()
+{
+    /* *INDENT-OFF* */
+    __asm {
+        push        edi
+        push        esi
+        push        ebx
+        xor         edi,edi
+        mov         eax,dword ptr [esp+14h]
+        or          eax,eax
+        jge         L1
+        inc         edi
+        mov         edx,dword ptr [esp+10h]
+        neg         eax
+        neg         edx
+        sbb         eax,0
+        mov         dword ptr [esp+14h],eax
+        mov         dword ptr [esp+10h],edx
+L1:
+        mov         eax,dword ptr [esp+1Ch]
+        or          eax,eax
+        jge         L2
+        inc         edi
+        mov         edx,dword ptr [esp+18h]
+        neg         eax
+        neg         edx
+        sbb         eax,0
+        mov         dword ptr [esp+1Ch],eax
+        mov         dword ptr [esp+18h],edx
+L2:
+        or          eax,eax
+        jne         L3
+        mov         ecx,dword ptr [esp+18h]
+        mov         eax,dword ptr [esp+14h]
+        xor         edx,edx
+        div         ecx
+        mov         ebx,eax
+        mov         eax,dword ptr [esp+10h]
+        div         ecx
+        mov         edx,ebx
+        jmp         L4
+L3:
+        mov         ebx,eax
+        mov         ecx,dword ptr [esp+18h]
+        mov         edx,dword ptr [esp+14h]
+        mov         eax,dword ptr [esp+10h]
+L5:
+        shr         ebx,1
+        rcr         ecx,1
+        shr         edx,1
+        rcr         eax,1
+        or          ebx,ebx
+        jne         L5
+        div         ecx
+        mov         esi,eax
+        mul         dword ptr [esp+1Ch]
+        mov         ecx,eax
+        mov         eax,dword ptr [esp+18h]
+        mul         esi
+        add         edx,ecx
+        jb          L6
+        cmp         edx,dword ptr [esp+14h]
+        ja          L6
+        jb          L7
+        cmp         eax,dword ptr [esp+10h]
+        jbe         L7
+L6:
+        dec         esi
+L7:
+        xor         edx,edx
+        mov         eax,esi
+L4:
+        dec         edi
+        jne         L8
+        neg         edx
+        neg         eax
+        sbb         edx,0
+L8:
+        pop         ebx
+        pop         esi
+        pop         edi
+        ret         10h
+    }
+    /* *INDENT-ON* */
+}
+
+void
+__declspec(naked)
+_aulldiv()
+{
+    /* *INDENT-OFF* */
+    __asm {
+        push        ebx
+        push        esi
+        mov         eax,dword ptr [esp+18h]
+        or          eax,eax
+        jne         L1
+        mov         ecx,dword ptr [esp+14h]
+        mov         eax,dword ptr [esp+10h]
+        xor         edx,edx
+        div         ecx
+        mov         ebx,eax
+        mov         eax,dword ptr [esp+0Ch]
+        div         ecx
+        mov         edx,ebx
+        jmp         L2
+L1:
+        mov         ecx,eax
+        mov         ebx,dword ptr [esp+14h]
+        mov         edx,dword ptr [esp+10h]
+        mov         eax,dword ptr [esp+0Ch]
+L3:
+        shr         ecx,1
+        rcr         ebx,1
+        shr         edx,1
+        rcr         eax,1
+        or          ecx,ecx
+        jne         L3
+        div         ebx
+        mov         esi,eax
+        mul         dword ptr [esp+18h]
+        mov         ecx,eax
+        mov         eax,dword ptr [esp+14h]
+        mul         esi
+        add         edx,ecx
+        jb          L4
+        cmp         edx,dword ptr [esp+10h]
+        ja          L4
+        jb          L5
+        cmp         eax,dword ptr [esp+0Ch]
+        jbe         L5
+L4:
+        dec         esi
+L5:
+        xor         edx,edx
+        mov         eax,esi
+L2:
+        pop         esi
+        pop         ebx
+        ret         10h
+    }
+    /* *INDENT-ON* */
+}
+
+void
+__declspec(naked)
+_allrem()
+{
+    /* *INDENT-OFF* */
+    __asm {
+        push        ebx
+        push        edi
+        xor         edi,edi
+        mov         eax,dword ptr [esp+10h]
+        or          eax,eax
+        jge         L1
+        inc         edi
+        mov         edx,dword ptr [esp+0Ch]
+        neg         eax
+        neg         edx
+        sbb         eax,0
+        mov         dword ptr [esp+10h],eax
+        mov         dword ptr [esp+0Ch],edx
+L1:
+        mov         eax,dword ptr [esp+18h]
+        or          eax,eax
+        jge         L2
+        mov         edx,dword ptr [esp+14h]
+        neg         eax
+        neg         edx
+        sbb         eax,0
+        mov         dword ptr [esp+18h],eax
+        mov         dword ptr [esp+14h],edx
+L2:
+        or          eax,eax
+        jne         L3
+        mov         ecx,dword ptr [esp+14h]
+        mov         eax,dword ptr [esp+10h]
+        xor         edx,edx
+        div         ecx
+        mov         eax,dword ptr [esp+0Ch]
+        div         ecx
+        mov         eax,edx
+        xor         edx,edx
+        dec         edi
+        jns         L4
+        jmp         L8
+L3:
+        mov         ebx,eax
+        mov         ecx,dword ptr [esp+14h]
+        mov         edx,dword ptr [esp+10h]
+        mov         eax,dword ptr [esp+0Ch]
+L5:
+        shr         ebx,1
+        rcr         ecx,1
+        shr         edx,1
+        rcr         eax,1
+        or          ebx,ebx
+        jne         L5
+        div         ecx
+        mov         ecx,eax
+        mul         dword ptr [esp+18h]
+        xchg        eax,ecx
+        mul         dword ptr [esp+14h]
+        add         edx,ecx
+        jb          L6
+        cmp         edx,dword ptr [esp+10h]
+        ja          L6
+        jb          L7
+        cmp         eax,dword ptr [esp+0Ch]
+        jbe         L7
+L6:
+        sub         eax,dword ptr [esp+14h]
+        sbb         edx,dword ptr [esp+18h]
+L7:
+        sub         eax,dword ptr [esp+0Ch]
+        sbb         edx,dword ptr [esp+10h]
+        dec         edi
+        jns         L8
+L4:
+        neg         edx
+        neg         eax
+        sbb         edx,0
+L8:
+        pop         edi
+        pop         ebx
+        ret         10h
+    }
+    /* *INDENT-ON* */
+}
+
+void
+__declspec(naked)
+_aullrem()
+{
+    /* *INDENT-OFF* */
+    __asm {
+        push        ebx
+        mov         eax,dword ptr [esp+14h]
+        or          eax,eax
+        jne         L1
+        mov         ecx,dword ptr [esp+10h]
+        mov         eax,dword ptr [esp+0Ch]
+        xor         edx,edx
+        div         ecx
+        mov         eax,dword ptr [esp+8]
+        div         ecx
+        mov         eax,edx
+        xor         edx,edx
+        jmp         L2
+L1:
+        mov         ecx,eax
+        mov         ebx,dword ptr [esp+10h]
+        mov         edx,dword ptr [esp+0Ch]
+        mov         eax,dword ptr [esp+8]
+L3:
+        shr         ecx,1
+        rcr         ebx,1
+        shr         edx,1
+        rcr         eax,1
+        or          ecx,ecx
+        jne         L3
+        div         ebx
+        mov         ecx,eax
+        mul         dword ptr [esp+14h]
+        xchg        eax,ecx
+        mul         dword ptr [esp+10h]
+        add         edx,ecx
+        jb          L4
+        cmp         edx,dword ptr [esp+0Ch]
+        ja          L4
+        jb          L5
+        cmp         eax,dword ptr [esp+8]
+        jbe         L5
+L4:
+        sub         eax,dword ptr [esp+10h]
+        sbb         edx,dword ptr [esp+14h]
+L5:
+        sub         eax,dword ptr [esp+8]
+        sbb         edx,dword ptr [esp+0Ch]
+        neg         edx
+        neg         eax
+        sbb         edx,0
+L2:
+        pop         ebx
+        ret         10h
+    }
+    /* *INDENT-ON* */
+}
+
+void
+__declspec(naked)
+_alldvrm()
+{
+    /* *INDENT-OFF* */
+    __asm {
+        push        edi
+        push        esi
+        push        ebp
+        xor         edi,edi
+        xor         ebp,ebp
+        mov         eax,dword ptr [esp+14h]
+        or          eax,eax
+        jge         L1
+        inc         edi
+        inc         ebp
+        mov         edx,dword ptr [esp+10h]
+        neg         eax
+        neg         edx
+        sbb         eax,0
+        mov         dword ptr [esp+14h],eax
+        mov         dword ptr [esp+10h],edx
+L1:
+        mov         eax,dword ptr [esp+1Ch]
+        or          eax,eax
+        jge         L2
+        inc         edi
+        mov         edx,dword ptr [esp+18h]
+        neg         eax
+        neg         edx
+        sbb         eax,0
+        mov         dword ptr [esp+1Ch],eax
+        mov         dword ptr [esp+18h],edx
+L2:
+        or          eax,eax
+        jne         L3
+        mov         ecx,dword ptr [esp+18h]
+        mov         eax,dword ptr [esp+14h]
+        xor         edx,edx
+        div         ecx
+        mov         ebx,eax
+        mov         eax,dword ptr [esp+10h]
+        div         ecx
+        mov         esi,eax
+        mov         eax,ebx
+        mul         dword ptr [esp+18h]
+        mov         ecx,eax
+        mov         eax,esi
+        mul         dword ptr [esp+18h]
+        add         edx,ecx
+        jmp         L4
+L3:
+        mov         ebx,eax
+        mov         ecx,dword ptr [esp+18h]
+        mov         edx,dword ptr [esp+14h]
+        mov         eax,dword ptr [esp+10h]
+L5:
+        shr         ebx,1
+        rcr         ecx,1
+        shr         edx,1
+        rcr         eax,1
+        or          ebx,ebx
+        jne         L5
+        div         ecx
+        mov         esi,eax
+        mul         dword ptr [esp+1Ch]
+        mov         ecx,eax
+        mov         eax,dword ptr [esp+18h]
+        mul         esi
+        add         edx,ecx
+        jb          L6
+        cmp         edx,dword ptr [esp+14h]
+        ja          L6
+        jb          L7
+        cmp         eax,dword ptr [esp+10h]
+        jbe         L7
+L6:
+        dec         esi
+        sub         eax,dword ptr [esp+18h]
+        sbb         edx,dword ptr [esp+1Ch]
+L7:
+        xor         ebx,ebx
+L4:
+        sub         eax,dword ptr [esp+10h]
+        sbb         edx,dword ptr [esp+14h]
+        dec         ebp
+        jns         L9
+        neg         edx
+        neg         eax
+        sbb         edx,0
+L9:
+        mov         ecx,edx
+        mov         edx,ebx
+        mov         ebx,ecx
+        mov         ecx,eax
+        mov         eax,esi
+        dec         edi
+        jne         L8
+        neg         edx
+        neg         eax
+        sbb         edx,0
+L8:
+        pop         ebp
+        pop         esi
+        pop         edi
+        ret         10h
+    }
+    /* *INDENT-ON* */
+}
+
+void
+__declspec(naked)
+_aulldvrm()
+{
+    /* *INDENT-OFF* */
+    __asm {
+        push        esi
+        mov         eax,dword ptr [esp+14h]
+        or          eax,eax
+        jne         L1
+        mov         ecx,dword ptr [esp+10h]
+        mov         eax,dword ptr [esp+0Ch]
+        xor         edx,edx
+        div         ecx
+        mov         ebx,eax
+        mov         eax,dword ptr [esp+8]
+        div         ecx
+        mov         esi,eax
+        mov         eax,ebx
+        mul         dword ptr [esp+10h]
+        mov         ecx,eax
+        mov         eax,esi
+        mul         dword ptr [esp+10h]
+        add         edx,ecx
+        jmp         L2
+L1:
+        mov         ecx,eax
+        mov         ebx,dword ptr [esp+10h]
+        mov         edx,dword ptr [esp+0Ch]
+        mov         eax,dword ptr [esp+8]
+L3:
+        shr         ecx,1
+        rcr         ebx,1
+        shr         edx,1
+        rcr         eax,1
+        or          ecx,ecx
+        jne         L3
+        div         ebx
+        mov         esi,eax
+        mul         dword ptr [esp+14h]
+        mov         ecx,eax
+        mov         eax,dword ptr [esp+10h]
+        mul         esi
+        add         edx,ecx
+        jb          L4
+        cmp         edx,dword ptr [esp+0Ch]
+        ja          L4
+        jb          L5
+        cmp         eax,dword ptr [esp+8]
+        jbe         L5
+L4:
+        dec         esi
+        sub         eax,dword ptr [esp+10h]
+        sbb         edx,dword ptr [esp+14h]
+L5:
+        xor         ebx,ebx
+L2:
+        sub         eax,dword ptr [esp+8]
+        sbb         edx,dword ptr [esp+0Ch]
+        neg         edx
+        neg         eax
+        sbb         edx,0
+        mov         ecx,edx
+        mov         edx,ebx
+        mov         ebx,ecx
+        mov         ecx,eax
+        mov         eax,esi
+        pop         esi
+        ret         10h
+    }
+    /* *INDENT-ON* */
+}
+
+void
+__declspec(naked)
+_allshl()
+{
+    /* *INDENT-OFF* */
+    __asm {
+        cmp         cl,40h
+        jae         RETZERO
+        cmp         cl,20h
+        jae         MORE32
+        shld        edx,eax,cl
+        shl         eax,cl
+        ret
+MORE32:
+        mov         edx,eax
+        xor         eax,eax
+        and         cl,1Fh
+        shl         edx,cl
+        ret
+RETZERO:
+        xor         eax,eax
+        xor         edx,edx
+        ret
+    }
+    /* *INDENT-ON* */
+}
+
+void
+__declspec(naked)
+_allshr()
+{
+    /* *INDENT-OFF* */
+    __asm {
+        cmp         cl,3Fh
+        jae         RETSIGN
+        cmp         cl,20h
+        jae         MORE32
+        shrd        eax,edx,cl
+        sar         edx,cl
+        ret
+MORE32:
+        mov         eax,edx
+        sar         edx,1Fh
+        and         cl,1Fh
+        sar         eax,cl
+        ret
+RETSIGN:
+        sar         edx,1Fh
+        mov         eax,edx
+        ret
+    }
+    /* *INDENT-ON* */
+}
+
+void
+__declspec(naked)
+_aullshr()
+{
+    /* *INDENT-OFF* */
+    __asm {
+        cmp         cl,40h
+        jae         RETZERO
+        cmp         cl,20h
+        jae         MORE32
+        shrd        eax,edx,cl
+        shr         edx,cl
+        ret
+MORE32:
+        mov         eax,edx
+        xor         edx,edx
+        and         cl,1Fh
+        shr         eax,cl
+        ret
+RETZERO:
+        xor         eax,eax
+        xor         edx,edx
+        ret
+    }
+    /* *INDENT-ON* */
+}
+
+#endif /* _M_IX86 */
+
+#endif /* MSC_VER */
+
 #endif /* !HAVE_LIBC */
 
 /* vi: set ts=4 sw=4 expandtab: */

@@ -8,6 +8,7 @@ add_definitions(-DGL_GLEXT_PROTOTYPES)
 add_definitions(-DFT2_BUILD_LIBRARY)
 add_definitions(-DURHO3D_LUA)
 add_definitions(-DURHO3D_IK)
+add_definitions(-DURHO3D_DATABASE)
 add_definitions(-DURHO3D_NETWORK)
 add_definitions(-DURHO3D_PHYSICS)
 add_definitions(-DURHO3D_NAVIGATION)
@@ -98,6 +99,7 @@ file(GLOB SOURCE_FILES_SDL2
   ${PROJ_DIR}/thirdparty/SDL/src/audio/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/audio/android/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/audio/dummy/*.c
+  ${PROJ_DIR}/thirdparty/SDL/src/audio/openslES/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/atomic/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/core/android/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/cpuinfo/*.c
@@ -106,13 +108,16 @@ file(GLOB SOURCE_FILES_SDL2
   ${PROJ_DIR}/thirdparty/SDL/src/file/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/haptic/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/haptic/android/*.c
+  ${PROJ_DIR}/thirdparty/SDL/src/hidapi/android/hid.cpp
   ${PROJ_DIR}/thirdparty/SDL/src/joystick/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/joystick/android/*.c
-  ${PROJ_DIR}/thirdparty/SDL/src/joystick/steam/SDL_steamcontroller.c
+  ${PROJ_DIR}/thirdparty/SDL/src/joystick/hidapi/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/loadso/dlopen/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/power/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/power/android/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/filesystem/android/*.c
+  ${PROJ_DIR}/thirdparty/SDL/src/sensor/*.c
+  ${PROJ_DIR}/thirdparty/SDL/src/sensor/android/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/render/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/render/*/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/stdlib/*.c
@@ -122,6 +127,7 @@ file(GLOB SOURCE_FILES_SDL2
   ${PROJ_DIR}/thirdparty/SDL/src/timer/unix/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/video/*.c
   ${PROJ_DIR}/thirdparty/SDL/src/video/android/*.c
+  ${PROJ_DIR}/thirdparty/SDL/src/video/yuv2rgb/*.c
 )
 
 add_library(

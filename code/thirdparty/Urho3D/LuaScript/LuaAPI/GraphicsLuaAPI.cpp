@@ -7303,6 +7303,37 @@ static int tolua_GraphicsLuaAPI_AnimationState_SetBlendMode00(lua_State* tolua_S
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: Apply of class  AnimationState */
+#ifndef TOLUA_DISABLE_tolua_GraphicsLuaAPI_AnimationState_Apply00
+static int tolua_GraphicsLuaAPI_AnimationState_Apply00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertype(tolua_S,1,"AnimationState",0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  AnimationState* self = (AnimationState*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+ if (!self) tolua_error(tolua_S,"invalid 'self' in function 'Apply'", NULL);
+#endif
+ {
+  self->Apply();
+ }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'Apply'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: GetAnimation of class  AnimationState */
 #ifndef TOLUA_DISABLE_tolua_GraphicsLuaAPI_AnimationState_GetAnimation00
 static int tolua_GraphicsLuaAPI_AnimationState_GetAnimation00(lua_State* tolua_S)
@@ -50349,6 +50380,7 @@ TOLUA_API int tolua_GraphicsLuaAPI_open (lua_State* tolua_S)
   tolua_function(tolua_S,"AddTime",tolua_GraphicsLuaAPI_AnimationState_AddTime00);
   tolua_function(tolua_S,"SetLayer",tolua_GraphicsLuaAPI_AnimationState_SetLayer00);
   tolua_function(tolua_S,"SetBlendMode",tolua_GraphicsLuaAPI_AnimationState_SetBlendMode00);
+  tolua_function(tolua_S,"Apply",tolua_GraphicsLuaAPI_AnimationState_Apply00);
   tolua_function(tolua_S,"GetAnimation",tolua_GraphicsLuaAPI_AnimationState_GetAnimation00);
   tolua_function(tolua_S,"GetStartBone",tolua_GraphicsLuaAPI_AnimationState_GetStartBone00);
   tolua_function(tolua_S,"GetBoneWeight",tolua_GraphicsLuaAPI_AnimationState_GetBoneWeight00);

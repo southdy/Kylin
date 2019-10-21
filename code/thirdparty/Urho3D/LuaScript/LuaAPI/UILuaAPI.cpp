@@ -8779,6 +8779,69 @@ tolua_lerror:
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: SetDisabledOffset of class  BorderImage */
+#ifndef TOLUA_DISABLE_tolua_UILuaAPI_BorderImage_SetDisabledOffset00
+static int tolua_UILuaAPI_BorderImage_SetDisabledOffset00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertype(tolua_S,1,"BorderImage",0,&tolua_err) ||
+ (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_isusertype(tolua_S,2,"const IntVector2",0,&tolua_err)) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  BorderImage* self = (BorderImage*)  tolua_tousertype(tolua_S,1,0);
+  const IntVector2* offset = ((const IntVector2*)  tolua_tousertype(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+ if (!self) tolua_error(tolua_S,"invalid 'self' in function 'SetDisabledOffset'", NULL);
+#endif
+ {
+  self->SetDisabledOffset(*offset);
+ }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SetDisabledOffset'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: SetDisabledOffset of class  BorderImage */
+#ifndef TOLUA_DISABLE_tolua_UILuaAPI_BorderImage_SetDisabledOffset01
+static int tolua_UILuaAPI_BorderImage_SetDisabledOffset01(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertype(tolua_S,1,"BorderImage",0,&tolua_err) ||
+ !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+ !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+ {
+  BorderImage* self = (BorderImage*)  tolua_tousertype(tolua_S,1,0);
+  int x = ((int)  tolua_tonumber(tolua_S,2,0));
+  int y = ((int)  tolua_tonumber(tolua_S,3,0));
+#ifndef TOLUA_RELEASE
+ if (!self) tolua_error(tolua_S,"invalid 'self' in function 'SetDisabledOffset'", NULL);
+#endif
+ {
+  self->SetDisabledOffset(x,y);
+ }
+ }
+ return 0;
+tolua_lerror:
+ return tolua_UILuaAPI_BorderImage_SetDisabledOffset00(tolua_S);
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: SetBlendMode of class  BorderImage */
 #ifndef TOLUA_DISABLE_tolua_UILuaAPI_BorderImage_SetBlendMode00
 static int tolua_UILuaAPI_BorderImage_SetBlendMode00(lua_State* tolua_S)
@@ -9005,6 +9068,38 @@ static int tolua_UILuaAPI_BorderImage_GetHoverOffset00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: GetDisabledOffset of class  BorderImage */
+#ifndef TOLUA_DISABLE_tolua_UILuaAPI_BorderImage_GetDisabledOffset00
+static int tolua_UILuaAPI_BorderImage_GetDisabledOffset00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertype(tolua_S,1,"const BorderImage",0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  const BorderImage* self = (const BorderImage*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+ if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetDisabledOffset'", NULL);
+#endif
+ {
+  const IntVector2& tolua_ret = (const IntVector2&)  self->GetDisabledOffset();
+  tolua_pushusertype(tolua_S,(void*)&tolua_ret,"const IntVector2");
+ }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetDisabledOffset'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: GetBlendMode of class  BorderImage */
 #ifndef TOLUA_DISABLE_tolua_UILuaAPI_BorderImage_GetBlendMode00
 static int tolua_UILuaAPI_BorderImage_GetBlendMode00(lua_State* tolua_S)
@@ -9224,6 +9319,37 @@ static int tolua_set_BorderImage_hoverOffset_ref(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* get function: disabledOffset of class  BorderImage */
+#ifndef TOLUA_DISABLE_tolua_get_BorderImage_disabledOffset_ref
+static int tolua_get_BorderImage_disabledOffset_ref(lua_State* tolua_S)
+{
+  BorderImage* self = (BorderImage*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+ if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'disabledOffset'",NULL);
+#endif
+  tolua_pushusertype(tolua_S,(void*)&self->GetDisabledOffset(),"IntVector2");
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* set function: disabledOffset of class  BorderImage */
+#ifndef TOLUA_DISABLE_tolua_set_BorderImage_disabledOffset_ref
+static int tolua_set_BorderImage_disabledOffset_ref(lua_State* tolua_S)
+{
+  BorderImage* self = (BorderImage*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'disabledOffset'",NULL);
+ if ((tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_isusertype(tolua_S,2,"IntVector2",0,&tolua_err)))
+ tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);
+#endif
+  self->SetDisabledOffset((*(IntVector2*)  tolua_tousertype(tolua_S,2,0))
+)
+;
+ return 0;
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* get function: blendMode of class  BorderImage */
 #ifndef TOLUA_DISABLE_tolua_get_BorderImage_blendMode
 static int tolua_get_BorderImage_blendMode(lua_State* tolua_S)
@@ -9435,69 +9561,6 @@ tolua_lerror:
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: SetDisabledOffset of class  Button */
-#ifndef TOLUA_DISABLE_tolua_UILuaAPI_Button_SetDisabledOffset00
-static int tolua_UILuaAPI_Button_SetDisabledOffset00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
- !tolua_isusertype(tolua_S,1,"Button",0,&tolua_err) ||
- (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_isusertype(tolua_S,2,"const IntVector2",0,&tolua_err)) ||
- !tolua_isnoobj(tolua_S,3,&tolua_err)
- )
- goto tolua_lerror;
- else
-#endif
- {
-  Button* self = (Button*)  tolua_tousertype(tolua_S,1,0);
-  const IntVector2* offset = ((const IntVector2*)  tolua_tousertype(tolua_S,2,0));
-#ifndef TOLUA_RELEASE
- if (!self) tolua_error(tolua_S,"invalid 'self' in function 'SetDisabledOffset'", NULL);
-#endif
- {
-  self->SetDisabledOffset(*offset);
- }
- }
- return 0;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'SetDisabledOffset'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: SetDisabledOffset of class  Button */
-#ifndef TOLUA_DISABLE_tolua_UILuaAPI_Button_SetDisabledOffset01
-static int tolua_UILuaAPI_Button_SetDisabledOffset01(lua_State* tolua_S)
-{
- tolua_Error tolua_err;
- if (
- !tolua_isusertype(tolua_S,1,"Button",0,&tolua_err) ||
- !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
- !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
- !tolua_isnoobj(tolua_S,4,&tolua_err)
- )
- goto tolua_lerror;
- else
- {
-  Button* self = (Button*)  tolua_tousertype(tolua_S,1,0);
-  int x = ((int)  tolua_tonumber(tolua_S,2,0));
-  int y = ((int)  tolua_tonumber(tolua_S,3,0));
-#ifndef TOLUA_RELEASE
- if (!self) tolua_error(tolua_S,"invalid 'self' in function 'SetDisabledOffset'", NULL);
-#endif
- {
-  self->SetDisabledOffset(x,y);
- }
- }
- return 0;
-tolua_lerror:
- return tolua_UILuaAPI_Button_SetDisabledOffset00(tolua_S);
-}
-#endif //#ifndef TOLUA_DISABLE
-
 /* method: SetPressedChildOffset of class  Button */
 #ifndef TOLUA_DISABLE_tolua_UILuaAPI_Button_SetPressedChildOffset00
 static int tolua_UILuaAPI_Button_SetPressedChildOffset00(lua_State* tolua_S)
@@ -9694,38 +9757,6 @@ static int tolua_UILuaAPI_Button_GetPressedOffset00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: GetDisabledOffset of class  Button */
-#ifndef TOLUA_DISABLE_tolua_UILuaAPI_Button_GetDisabledOffset00
-static int tolua_UILuaAPI_Button_GetDisabledOffset00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
- !tolua_isusertype(tolua_S,1,"const Button",0,&tolua_err) ||
- !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
- goto tolua_lerror;
- else
-#endif
- {
-  const Button* self = (const Button*)  tolua_tousertype(tolua_S,1,0);
-#ifndef TOLUA_RELEASE
- if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetDisabledOffset'", NULL);
-#endif
- {
-  const IntVector2& tolua_ret = (const IntVector2&)  self->GetDisabledOffset();
-  tolua_pushusertype(tolua_S,(void*)&tolua_ret,"const IntVector2");
- }
- }
- return 1;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'GetDisabledOffset'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
 /* method: GetPressedChildOffset of class  Button */
 #ifndef TOLUA_DISABLE_tolua_UILuaAPI_Button_GetPressedChildOffset00
 static int tolua_UILuaAPI_Button_GetPressedChildOffset00(lua_State* tolua_S)
@@ -9879,37 +9910,6 @@ static int tolua_set_Button_pressedOffset_ref(lua_State* tolua_S)
  tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);
 #endif
   self->SetPressedOffset((*(IntVector2*)  tolua_tousertype(tolua_S,2,0))
-)
-;
- return 0;
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* get function: disabledOffset of class  Button */
-#ifndef TOLUA_DISABLE_tolua_get_Button_disabledOffset_ref
-static int tolua_get_Button_disabledOffset_ref(lua_State* tolua_S)
-{
-  Button* self = (Button*)  tolua_tousertype(tolua_S,1,0);
-#ifndef TOLUA_RELEASE
- if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'disabledOffset'",NULL);
-#endif
-  tolua_pushusertype(tolua_S,(void*)&self->GetDisabledOffset(),"IntVector2");
- return 1;
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* set function: disabledOffset of class  Button */
-#ifndef TOLUA_DISABLE_tolua_set_Button_disabledOffset_ref
-static int tolua_set_Button_disabledOffset_ref(lua_State* tolua_S)
-{
-  Button* self = (Button*)  tolua_tousertype(tolua_S,1,0);
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'disabledOffset'",NULL);
- if ((tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_isusertype(tolua_S,2,"IntVector2",0,&tolua_err)))
- tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);
-#endif
-  self->SetDisabledOffset((*(IntVector2*)  tolua_tousertype(tolua_S,2,0))
 )
 ;
  return 0;
@@ -24856,6 +24856,70 @@ static int tolua_UILuaAPI_ToolTip_delete00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: Reset of class  ToolTip */
+#ifndef TOLUA_DISABLE_tolua_UILuaAPI_ToolTip_Reset00
+static int tolua_UILuaAPI_ToolTip_Reset00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertype(tolua_S,1,"ToolTip",0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  ToolTip* self = (ToolTip*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+ if (!self) tolua_error(tolua_S,"invalid 'self' in function 'Reset'", NULL);
+#endif
+ {
+  self->Reset();
+ }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'Reset'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: AddAltTarget of class  ToolTip */
+#ifndef TOLUA_DISABLE_tolua_UILuaAPI_ToolTip_AddAltTarget00
+static int tolua_UILuaAPI_ToolTip_AddAltTarget00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+ !tolua_isusertype(tolua_S,1,"ToolTip",0,&tolua_err) ||
+ !tolua_isusertype(tolua_S,2,"UIElement",0,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+ goto tolua_lerror;
+ else
+#endif
+ {
+  ToolTip* self = (ToolTip*)  tolua_tousertype(tolua_S,1,0);
+  UIElement* target = ((UIElement*)  tolua_tousertype(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+ if (!self) tolua_error(tolua_S,"invalid 'self' in function 'AddAltTarget'", NULL);
+#endif
+ {
+  self->AddAltTarget(target);
+ }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'AddAltTarget'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: SetDelay of class  ToolTip */
 #ifndef TOLUA_DISABLE_tolua_UILuaAPI_ToolTip_SetDelay00
 static int tolua_UILuaAPI_ToolTip_SetDelay00(lua_State* tolua_S)
@@ -29530,6 +29594,8 @@ TOLUA_API int tolua_UILuaAPI_open (lua_State* tolua_S)
   tolua_function(tolua_S,"SetImageBorder",tolua_UILuaAPI_BorderImage_SetImageBorder00);
   tolua_function(tolua_S,"SetHoverOffset",tolua_UILuaAPI_BorderImage_SetHoverOffset00);
   tolua_function(tolua_S,"SetHoverOffset",tolua_UILuaAPI_BorderImage_SetHoverOffset01);
+  tolua_function(tolua_S,"SetDisabledOffset",tolua_UILuaAPI_BorderImage_SetDisabledOffset00);
+  tolua_function(tolua_S,"SetDisabledOffset",tolua_UILuaAPI_BorderImage_SetDisabledOffset01);
   tolua_function(tolua_S,"SetBlendMode",tolua_UILuaAPI_BorderImage_SetBlendMode00);
   tolua_function(tolua_S,"SetTiled",tolua_UILuaAPI_BorderImage_SetTiled00);
   tolua_function(tolua_S,"GetTexture",tolua_UILuaAPI_BorderImage_GetTexture00);
@@ -29537,6 +29603,7 @@ TOLUA_API int tolua_UILuaAPI_open (lua_State* tolua_S)
   tolua_function(tolua_S,"GetBorder",tolua_UILuaAPI_BorderImage_GetBorder00);
   tolua_function(tolua_S,"GetImageBorder",tolua_UILuaAPI_BorderImage_GetImageBorder00);
   tolua_function(tolua_S,"GetHoverOffset",tolua_UILuaAPI_BorderImage_GetHoverOffset00);
+  tolua_function(tolua_S,"GetDisabledOffset",tolua_UILuaAPI_BorderImage_GetDisabledOffset00);
   tolua_function(tolua_S,"GetBlendMode",tolua_UILuaAPI_BorderImage_GetBlendMode00);
   tolua_function(tolua_S,"IsTiled",tolua_UILuaAPI_BorderImage_IsTiled00);
   tolua_variable(tolua_S,"texture",tolua_get_BorderImage_texture_ptr,tolua_set_BorderImage_texture_ptr);
@@ -29544,6 +29611,7 @@ TOLUA_API int tolua_UILuaAPI_open (lua_State* tolua_S)
   tolua_variable(tolua_S,"border",tolua_get_BorderImage_border_ref,tolua_set_BorderImage_border_ref);
   tolua_variable(tolua_S,"imageBorder",tolua_get_BorderImage_imageBorder_ref,tolua_set_BorderImage_imageBorder_ref);
   tolua_variable(tolua_S,"hoverOffset",tolua_get_BorderImage_hoverOffset_ref,tolua_set_BorderImage_hoverOffset_ref);
+  tolua_variable(tolua_S,"disabledOffset",tolua_get_BorderImage_disabledOffset_ref,tolua_set_BorderImage_disabledOffset_ref);
   tolua_variable(tolua_S,"blendMode",tolua_get_BorderImage_blendMode,tolua_set_BorderImage_blendMode);
   tolua_variable(tolua_S,"tiled",tolua_get_BorderImage_tiled,tolua_set_BorderImage_tiled);
  tolua_endmodule(tolua_S);
@@ -29559,21 +29627,17 @@ TOLUA_API int tolua_UILuaAPI_open (lua_State* tolua_S)
   tolua_function(tolua_S,"delete",tolua_UILuaAPI_Button_delete00);
   tolua_function(tolua_S,"SetPressedOffset",tolua_UILuaAPI_Button_SetPressedOffset00);
   tolua_function(tolua_S,"SetPressedOffset",tolua_UILuaAPI_Button_SetPressedOffset01);
-  tolua_function(tolua_S,"SetDisabledOffset",tolua_UILuaAPI_Button_SetDisabledOffset00);
-  tolua_function(tolua_S,"SetDisabledOffset",tolua_UILuaAPI_Button_SetDisabledOffset01);
   tolua_function(tolua_S,"SetPressedChildOffset",tolua_UILuaAPI_Button_SetPressedChildOffset00);
   tolua_function(tolua_S,"SetPressedChildOffset",tolua_UILuaAPI_Button_SetPressedChildOffset01);
   tolua_function(tolua_S,"SetRepeat",tolua_UILuaAPI_Button_SetRepeat00);
   tolua_function(tolua_S,"SetRepeatDelay",tolua_UILuaAPI_Button_SetRepeatDelay00);
   tolua_function(tolua_S,"SetRepeatRate",tolua_UILuaAPI_Button_SetRepeatRate00);
   tolua_function(tolua_S,"GetPressedOffset",tolua_UILuaAPI_Button_GetPressedOffset00);
-  tolua_function(tolua_S,"GetDisabledOffset",tolua_UILuaAPI_Button_GetDisabledOffset00);
   tolua_function(tolua_S,"GetPressedChildOffset",tolua_UILuaAPI_Button_GetPressedChildOffset00);
   tolua_function(tolua_S,"GetRepeatDelay",tolua_UILuaAPI_Button_GetRepeatDelay00);
   tolua_function(tolua_S,"GetRepeatRate",tolua_UILuaAPI_Button_GetRepeatRate00);
   tolua_function(tolua_S,"IsPressed",tolua_UILuaAPI_Button_IsPressed00);
   tolua_variable(tolua_S,"pressedOffset",tolua_get_Button_pressedOffset_ref,tolua_set_Button_pressedOffset_ref);
-  tolua_variable(tolua_S,"disabledOffset",tolua_get_Button_disabledOffset_ref,tolua_set_Button_disabledOffset_ref);
   tolua_variable(tolua_S,"pressedChildOffset",tolua_get_Button_pressedChildOffset_ref,tolua_set_Button_pressedChildOffset_ref);
   tolua_variable(tolua_S,"repeatDelay",tolua_get_Button_repeatDelay,tolua_set_Button_repeatDelay);
   tolua_variable(tolua_S,"repeatRate",tolua_get_Button_repeatRate,tolua_set_Button_repeatRate);
@@ -30235,6 +30299,8 @@ TOLUA_API int tolua_UILuaAPI_open (lua_State* tolua_S)
   tolua_function(tolua_S,"new_local",tolua_UILuaAPI_ToolTip_new00_local);
   tolua_function(tolua_S,".call",tolua_UILuaAPI_ToolTip_new00_local);
   tolua_function(tolua_S,"delete",tolua_UILuaAPI_ToolTip_delete00);
+  tolua_function(tolua_S,"Reset",tolua_UILuaAPI_ToolTip_Reset00);
+  tolua_function(tolua_S,"AddAltTarget",tolua_UILuaAPI_ToolTip_AddAltTarget00);
   tolua_function(tolua_S,"SetDelay",tolua_UILuaAPI_ToolTip_SetDelay00);
   tolua_function(tolua_S,"GetDelay",tolua_UILuaAPI_ToolTip_GetDelay00);
   tolua_variable(tolua_S,"delay",tolua_get_ToolTip_delay,tolua_set_ToolTip_delay);

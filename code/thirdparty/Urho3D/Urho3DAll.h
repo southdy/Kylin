@@ -43,6 +43,8 @@
 #include <Urho3D/Audio/SoundSource.h>
 #include <Urho3D/Audio/SoundSource3D.h>
 #include <Urho3D/Audio/SoundStream.h>
+#include <Urho3D/Base/Algorithm.h>
+#include <Urho3D/Base/Iter.h>
 #include <Urho3D/Container/Allocator.h>
 #include <Urho3D/Container/ArrayPtr.h>
 #include <Urho3D/Container/FlagSet.h>

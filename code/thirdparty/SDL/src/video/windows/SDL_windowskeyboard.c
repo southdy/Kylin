@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2017 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -18,9 +18,6 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-
-// Modified by Aster Jian for Urho3D
-
 #include "../../SDL_internal.h"
 
 #if SDL_VIDEO_DRIVER_WINDOWS
@@ -449,16 +446,12 @@ IME_GetReadingString(SDL_VideoData *videodata, HWND hwnd)
     INT err = 0;
     BOOL vertical = FALSE;
     UINT maxuilen = 0;
-    static OSVERSIONINFOA osversion;
 
     if (videodata->ime_uiless)
         return;
 
     videodata->ime_readingstring[0] = 0;
-    if (!osversion.dwOSVersionInfoSize) {
-        osversion.dwOSVersionInfoSize = sizeof(osversion);
-        GetVersionExA(&osversion);
-    }
+    
     id = IME_GetId(videodata, 0);
     if (!id)
         return;
@@ -519,9 +512,6 @@ IME_GetReadingString(SDL_VideoData *videodata, HWND hwnd)
             }
             break;
         case IMEID_CHS_VER42:
-            if (osversion.dwPlatformId != VER_PLATFORM_WIN32_NT)
-                break;
-
             p = *(LPBYTE *)((LPBYTE)videodata->ImmLockIMCC(lpimc->hPrivate) + 1*4 + 1*4 + 6*4);
             if (!p)
                 break;
@@ -900,9 +890,6 @@ IME_HandleMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, SDL_VideoD
         if (*lParam & GCS_RESULTSTR) {
             IME_GetCompositionString(videodata, himc, GCS_RESULTSTR);
             IME_SendInputEvent(videodata);
-            // Urho3D: When text inputed, it is need to clear the text in composition
-            ImmAssociateContext(videodata->ime_hwnd_main, (HIMC)0);
-            ImmAssociateContext(videodata->ime_hwnd_main, videodata->ime_himc);
         }
         if (*lParam & GCS_COMPSTR) {
             if (!videodata->ime_uiless)

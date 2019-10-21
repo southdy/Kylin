@@ -1,1 +1,1 @@
-LuaScripts/01_HelloWorld.lua
+LuaScripts/50_Urho2DPlatformer.lua

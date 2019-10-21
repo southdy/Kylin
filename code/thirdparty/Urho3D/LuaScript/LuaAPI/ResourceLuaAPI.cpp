@@ -3508,18 +3508,20 @@ static int tolua_ResourceLuaAPI_JSONValue_GetBool00(lua_State* tolua_S)
  tolua_Error tolua_err;
  if (
  !tolua_isusertype(tolua_S,1,"const JSONValue",0,&tolua_err) ||
- !tolua_isnoobj(tolua_S,2,&tolua_err)
+ !tolua_isboolean(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
  goto tolua_lerror;
  else
 #endif
  {
   const JSONValue* self = (const JSONValue*)  tolua_tousertype(tolua_S,1,0);
+  bool defaultValue = ((bool)  tolua_toboolean(tolua_S,2,false));
 #ifndef TOLUA_RELEASE
  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetBool'", NULL);
 #endif
  {
-  bool tolua_ret = (bool)  self->GetBool();
+  bool tolua_ret = (bool)  self->GetBool(defaultValue);
  tolua_pushboolean(tolua_S,(bool)tolua_ret);
  }
  }
@@ -3540,18 +3542,20 @@ static int tolua_ResourceLuaAPI_JSONValue_GetInt00(lua_State* tolua_S)
  tolua_Error tolua_err;
  if (
  !tolua_isusertype(tolua_S,1,"const JSONValue",0,&tolua_err) ||
- !tolua_isnoobj(tolua_S,2,&tolua_err)
+ !tolua_isnumber(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
  goto tolua_lerror;
  else
 #endif
  {
   const JSONValue* self = (const JSONValue*)  tolua_tousertype(tolua_S,1,0);
+  int defaultValue = ((int)  tolua_tonumber(tolua_S,2,0));
 #ifndef TOLUA_RELEASE
  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetInt'", NULL);
 #endif
  {
-  int tolua_ret = (int)  self->GetInt();
+  int tolua_ret = (int)  self->GetInt(defaultValue);
  tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
  }
  }
@@ -3572,18 +3576,20 @@ static int tolua_ResourceLuaAPI_JSONValue_GetUInt00(lua_State* tolua_S)
  tolua_Error tolua_err;
  if (
  !tolua_isusertype(tolua_S,1,"const JSONValue",0,&tolua_err) ||
- !tolua_isnoobj(tolua_S,2,&tolua_err)
+ !tolua_isnumber(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
  goto tolua_lerror;
  else
 #endif
  {
   const JSONValue* self = (const JSONValue*)  tolua_tousertype(tolua_S,1,0);
+  unsigned defaultValue = ((unsigned)  tolua_tonumber(tolua_S,2,0));
 #ifndef TOLUA_RELEASE
  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetUInt'", NULL);
 #endif
  {
-  unsigned tolua_ret = (unsigned)  self->GetUInt();
+  unsigned tolua_ret = (unsigned)  self->GetUInt(defaultValue);
  tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
  }
  }
@@ -3604,18 +3610,20 @@ static int tolua_ResourceLuaAPI_JSONValue_GetFloat00(lua_State* tolua_S)
  tolua_Error tolua_err;
  if (
  !tolua_isusertype(tolua_S,1,"const JSONValue",0,&tolua_err) ||
- !tolua_isnoobj(tolua_S,2,&tolua_err)
+ !tolua_isnumber(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
  goto tolua_lerror;
  else
 #endif
  {
   const JSONValue* self = (const JSONValue*)  tolua_tousertype(tolua_S,1,0);
+  float defaultValue = ((float)  tolua_tonumber(tolua_S,2,0));
 #ifndef TOLUA_RELEASE
  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetFloat'", NULL);
 #endif
  {
-  float tolua_ret = (float)  self->GetFloat();
+  float tolua_ret = (float)  self->GetFloat(defaultValue);
  tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
  }
  }
@@ -3636,18 +3644,20 @@ static int tolua_ResourceLuaAPI_JSONValue_GetDouble00(lua_State* tolua_S)
  tolua_Error tolua_err;
  if (
  !tolua_isusertype(tolua_S,1,"const JSONValue",0,&tolua_err) ||
- !tolua_isnoobj(tolua_S,2,&tolua_err)
+ !tolua_isnumber(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
  goto tolua_lerror;
  else
 #endif
  {
   const JSONValue* self = (const JSONValue*)  tolua_tousertype(tolua_S,1,0);
+  double defaultValue = ((double)  tolua_tonumber(tolua_S,2,0));
 #ifndef TOLUA_RELEASE
  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetDouble'", NULL);
 #endif
  {
-  double tolua_ret = (double)  self->GetDouble();
+  double tolua_ret = (double)  self->GetDouble(defaultValue);
  tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
  }
  }
@@ -3668,18 +3678,20 @@ static int tolua_ResourceLuaAPI_JSONValue_GetString00(lua_State* tolua_S)
  tolua_Error tolua_err;
  if (
  !tolua_isusertype(tolua_S,1,"const JSONValue",0,&tolua_err) ||
- !tolua_isnoobj(tolua_S,2,&tolua_err)
+ !tolua_isurho3dstring(tolua_S,2,1,&tolua_err) ||
+ !tolua_isnoobj(tolua_S,3,&tolua_err)
  )
  goto tolua_lerror;
  else
 #endif
  {
   const JSONValue* self = (const JSONValue*)  tolua_tousertype(tolua_S,1,0);
+  const String defaultValue = ((const String)  tolua_tourho3dstring(tolua_S,2,String::EMPTY));
 #ifndef TOLUA_RELEASE
  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetString'", NULL);
 #endif
  {
-  const String tolua_ret = (const String)  self->GetString();
+  const String tolua_ret = (const String)  self->GetString(defaultValue);
  tolua_pushurho3dstring(tolua_S,(const char*)tolua_ret);
  }
  }

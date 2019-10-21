@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2016 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2019 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -50,28 +50,28 @@ KMSDRM_GLES_SetupCrtc(_THIS, SDL_Window * window) {
     KMSDRM_FBInfo *fb_info;
 
     if (!(_this->egl_data->eglSwapBuffers(_this->egl_data->egl_display, wdata->egl_surface))) {
-	SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "eglSwapBuffers failed on CRTC setup");
-	return SDL_FALSE;
+        SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "eglSwapBuffers failed on CRTC setup");
+        return SDL_FALSE;
     }
 
-    wdata->next_bo = KMSDRM_gbm_surface_lock_front_buffer(wdata->gs);
-    if (wdata->next_bo == NULL) {
-	SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Could not lock GBM surface front buffer on CRTC setup");
-	return SDL_FALSE;
+    wdata->crtc_bo = KMSDRM_gbm_surface_lock_front_buffer(wdata->gs);
+    if (wdata->crtc_bo == NULL) {
+        SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Could not lock GBM surface front buffer on CRTC setup");
+        return SDL_FALSE;
     }
 
-    fb_info = KMSDRM_FBFromBO(_this, wdata->next_bo);
+    fb_info = KMSDRM_FBFromBO(_this, wdata->crtc_bo);
     if (fb_info == NULL) {
-	return SDL_FALSE;
+        return SDL_FALSE;
     }
 
     if(KMSDRM_drmModeSetCrtc(vdata->drm_fd, displaydata->crtc_id, fb_info->fb_id,
-			    0, 0, &vdata->saved_conn_id, 1, &displaydata->cur_mode) != 0) {
+                            0, 0, &vdata->saved_conn_id, 1, &displaydata->cur_mode) != 0) {
        SDL_LogWarn(SDL_LOG_CATEGORY_VIDEO, "Could not set up CRTC to a GBM buffer");
        return SDL_FALSE;
 
     }
-    
+
     wdata->crtc_ready = SDL_TRUE;
     return SDL_TRUE;
 }
@@ -140,36 +140,34 @@ KMSDRM_GLES_SwapWindow(_THIS, SDL_Window * window) {
     if (fb_info == NULL) {
         return 0;
     }
-    if (_this->egl_data->egl_swapinterval == 0) {
-        /* Swap buffers instantly, possible tearing */
-        /* SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "drmModeSetCrtc(%d, %u, %u, 0, 0, &%u, 1, &%ux%u@%u)",
-            vdata->drm_fd, displaydata->crtc_id, fb_info->fb_id, vdata->saved_conn_id,
-            displaydata->cur_mode.hdisplay, displaydata->cur_mode.vdisplay, displaydata->cur_mode.vrefresh); */
-        ret = KMSDRM_drmModeSetCrtc(vdata->drm_fd, displaydata->crtc_id, fb_info->fb_id,
-                                    0, 0, &vdata->saved_conn_id, 1, &displaydata->cur_mode);
-        if(ret != 0) {
-            SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Could not pageflip with drmModeSetCrtc: %d", ret);
+
+    /* Have we already setup the CRTC to one of the GBM buffers? Do so if we have not,
+       or FlipPage won't work in some cases. */
+    if (!wdata->crtc_ready) {
+        if(!KMSDRM_GLES_SetupCrtc(_this, window)) {
+            SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Could not set up CRTC for doing pageflips");
+            return 0;
         }
-    } else {
+    }
+
+    /* SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "drmModePageFlip(%d, %u, %u, DRM_MODE_PAGE_FLIP_EVENT, &wdata->waiting_for_flip)",
+        vdata->drm_fd, displaydata->crtc_id, fb_info->fb_id); */
+    ret = KMSDRM_drmModePageFlip(vdata->drm_fd, displaydata->crtc_id, fb_info->fb_id,
+                                 DRM_MODE_PAGE_FLIP_EVENT, &wdata->waiting_for_flip);
+
+    if (_this->egl_data->egl_swapinterval == 1) {
         /* Queue page flip at vsync */
 
-	/* Have we already setup the CRTC to one of the GBM buffers? Do so if we have not,
-           or FlipPage won't work in some cases. */
-	if (!wdata->crtc_ready) {
-            if(!KMSDRM_GLES_SetupCrtc(_this, window)) {
-                SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Could not set up CRTC for doing vsync-ed pageflips");
-                return 0;
-            } 
-	}
-
-        /* SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "drmModePageFlip(%d, %u, %u, DRM_MODE_PAGE_FLIP_EVENT, &wdata->waiting_for_flip)",
-            vdata->drm_fd, displaydata->crtc_id, fb_info->fb_id); */
-        ret = KMSDRM_drmModePageFlip(vdata->drm_fd, displaydata->crtc_id, fb_info->fb_id,
-                                     DRM_MODE_PAGE_FLIP_EVENT, &wdata->waiting_for_flip);
         if (ret == 0) {
             wdata->waiting_for_flip = SDL_TRUE;
         } else {
             SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Could not queue pageflip: %d", ret);
+        }
+
+        /* Wait immediately for vsync (as if we only had two buffers), for low input-lag scenarios.
+           Run your SDL2 program with "SDL_KMSDRM_DOUBLE_BUFFER=1 <program_name>" to enable this. */
+        if (wdata->double_buffer) {
+            KMSDRM_WaitPageFlip(_this, wdata, -1);
         }
     }
 
