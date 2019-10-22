@@ -51,28 +51,6 @@
 #define glClearDepth glClearDepthf
 #endif
 
-#ifdef __EMSCRIPTEN__
-// Emscripten provides even all GL extension functions via static linking. However there is
-// no GLES2-specific extension header at the moment to include instanced rendering declarations,
-// so declare them manually from GLES3 gl2ext.h. Emscripten will provide these when linking final output.
-extern "C"
-{
-    GL_APICALL void GL_APIENTRY glDrawArraysInstancedANGLE (GLenum mode, GLint first, GLsizei count, GLsizei primcount);
-    GL_APICALL void GL_APIENTRY glDrawElementsInstancedANGLE (GLenum mode, GLsizei count, GLenum type, const void *indices, GLsizei primcount);
-    GL_APICALL void GL_APIENTRY glVertexAttribDivisorANGLE (GLuint index, GLuint divisor);
-}
-#endif
-
-#ifdef _WIN32
-// Prefer the high-performance GPU on switchable GPU systems
-#include <windows.h>
-extern "C"
-{
-    __declspec(dllexport) DWORD NvOptimusEnablement = 1;
-    __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
-}
-#endif
-
 namespace Urho3D
 {
 
@@ -418,11 +396,9 @@ bool Graphics::SetMode(int width, int height, bool fullscreen, bool borderless, 
                 window_ = SDL_CreateWindow(windowTitle_.CString(), x, y, width, height, flags);
             else
             {
-#ifndef __EMSCRIPTEN__
                 if (!window_)
                     window_ = SDL_CreateWindowFrom(externalWindow_, SDL_WINDOW_OPENGL);
                 fullscreen = false;
-#endif
             }
 
             if (window_)
@@ -924,7 +900,7 @@ void Graphics::Draw(PrimitiveType type, unsigned indexStart, unsigned indexCount
 void Graphics::DrawInstanced(PrimitiveType type, unsigned indexStart, unsigned indexCount, unsigned minVertex, unsigned vertexCount,
     unsigned instanceCount)
 {
-#if !defined(GL_ES_VERSION_2_0) || defined(__EMSCRIPTEN__)
+#if !defined(GL_ES_VERSION_2_0)
     if (!indexCount || !indexBuffer_ || !indexBuffer_->GetGPUObjectName() || !instancingSupport_)
         return;
 
@@ -936,10 +912,6 @@ void Graphics::DrawInstanced(PrimitiveType type, unsigned indexStart, unsigned i
 
     GetGLPrimitiveType(indexCount, type, primitiveCount, glPrimitiveType);
     GLenum indexType = indexSize == sizeof(unsigned short) ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT;
-#ifdef __EMSCRIPTEN__
-    glDrawElementsInstancedANGLE(glPrimitiveType, indexCount, indexType, reinterpret_cast<const GLvoid*>(indexStart * indexSize),
-        instanceCount);
-#else
     if (gl3Support)
     {
         glDrawElementsInstanced(glPrimitiveType, indexCount, indexType, reinterpret_cast<const GLvoid*>(indexStart * indexSize),
@@ -950,7 +922,6 @@ void Graphics::DrawInstanced(PrimitiveType type, unsigned indexStart, unsigned i
         glDrawElementsInstancedARB(glPrimitiveType, indexCount, indexType, reinterpret_cast<const GLvoid*>(indexStart * indexSize),
             instanceCount);
     }
-#endif
 
     numPrimitives_ += instanceCount * primitiveCount;
     ++numBatches_;
@@ -2125,12 +2096,7 @@ unsigned Graphics::GetFormat(CompressedFormat format) const
 
 unsigned Graphics::GetMaxBones()
 {
-#ifdef RPI
-    // At the moment all RPI GPUs are low powered and only have limited number of uniforms
-    return 32;
-#else
     return gl3Support ? 128 : 64;
-#endif
 }
 
 bool Graphics::GetGL3Support()
@@ -2393,12 +2359,6 @@ void Graphics::Release(bool clearGPUObjects, bool closeWindow)
 
     CleanupFramebuffers();
     impl_->depthTextures_.Clear();
-
-    // End fullscreen mode first to counteract transition and getting stuck problems on OS X
-#if defined(__APPLE__) && !defined(IOS) && !defined(TVOS)
-    if (closeWindow && fullscreen_ && !externalWindow_)
-        SDL_SetWindowFullscreen(window_, 0);
-#endif
 
     if (impl_->context_)
     {
@@ -2775,39 +2735,18 @@ void Graphics::CheckFeatureSupport()
     if (numSupportedRTs >= 4)
         deferredSupport_ = true;
 
-#if defined(__APPLE__) && !defined(IOS) && !defined(TVOS)
-    // On macOS check for an Intel driver and use shadow map RGBA dummy color textures, because mixing
-    // depth-only FBO rendering and backbuffer rendering will bug, resulting in a black screen in full
-    // screen mode, and incomplete shadow maps in windowed mode
-    String renderer((const char*)glGetString(GL_RENDERER));
-    if (renderer.Contains("Intel", false))
-        dummyColorFormat_ = GetRGBAFormat();
-#endif
 #else
     // Check for supported compressed texture formats
-#ifdef __EMSCRIPTEN__
-    dxtTextureSupport_ = CheckExtension("WEBGL_compressed_texture_s3tc"); // https://www.khronos.org/registry/webgl/extensions/WEBGL_compressed_texture_s3tc/
-    etcTextureSupport_ = CheckExtension("WEBGL_compressed_texture_etc1"); // https://www.khronos.org/registry/webgl/extensions/WEBGL_compressed_texture_etc1/
-    pvrtcTextureSupport_ = CheckExtension("WEBGL_compressed_texture_pvrtc"); // https://www.khronos.org/registry/webgl/extensions/WEBGL_compressed_texture_pvrtc/
-    // Instancing is in core in WebGL 2, so the extension may not be present anymore. In WebGL 1, find https://www.khronos.org/registry/webgl/extensions/ANGLE_instanced_arrays/
-    // TODO: In the distant future, this may break if WebGL 3 is introduced, so either improve the GL_VERSION parsing here, or keep track of which WebGL version we attempted to initialize.
-    instancingSupport_ = (strstr((const char *)glGetString(GL_VERSION), "WebGL 2.") != 0) || CheckExtension("ANGLE_instanced_arrays");
-#else
     dxtTextureSupport_ = CheckExtension("EXT_texture_compression_dxt1");
     etcTextureSupport_ = CheckExtension("OES_compressed_ETC1_RGB8_texture");
     pvrtcTextureSupport_ = CheckExtension("IMG_texture_compression_pvrtc");
-#endif
 
     // Check for best supported depth renderbuffer format for GLES2
     if (CheckExtension("GL_OES_depth24"))
         glesDepthStencilFormat = GL_DEPTH_COMPONENT24_OES;
     if (CheckExtension("GL_OES_packed_depth_stencil"))
         glesDepthStencilFormat = GL_DEPTH24_STENCIL8_OES;
-    #ifdef __EMSCRIPTEN__
-    if (!CheckExtension("WEBGL_depth_texture"))
-#else
     if (!CheckExtension("GL_OES_depth_texture"))
-#endif
     {
         shadowMapFormat_ = 0;
         hiresShadowMapFormat_ = 0;
@@ -2821,10 +2760,6 @@ void Graphics::CheckFeatureSupport()
 #endif
         shadowMapFormat_ = GL_DEPTH_COMPONENT;
         hiresShadowMapFormat_ = 0;
-        // WebGL shadow map rendering seems to be extremely slow without an attached dummy color texture
-        #ifdef __EMSCRIPTEN__
-        dummyColorFormat_ = GetRGBAFormat();
-#endif
     }
 #endif
 
@@ -3379,11 +3314,6 @@ void Graphics::SetVertexAttribDivisor(unsigned location, unsigned divisor)
         glVertexAttribDivisor(location, divisor);
     else if (instancingSupport_)
         glVertexAttribDivisorARB(location, divisor);
-#else
-#ifdef __EMSCRIPTEN__
-    if (instancingSupport_)
-        glVertexAttribDivisorANGLE(location, divisor);
-#endif
 #endif
 }
 
