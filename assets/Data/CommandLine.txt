@@ -1,1 +1,1 @@
-LuaScripts/41_DatabaseDemo.lua
+LuaScripts/06_SkeletalAnimation.lua
