@@ -56,7 +56,6 @@ class TextureCube;
 class Vector3;
 class Vector4;
 class VertexBuffer;
-class VertexDeclaration;
 
 struct ShaderParameter;
 
@@ -709,8 +708,6 @@ private:
     VertexBuffer* vertexBuffers_[MAX_VERTEX_STREAMS]{};
     /// Index buffer in use.
     IndexBuffer* indexBuffer_{};
-    /// Current vertex declaration hash.
-    unsigned long long vertexDeclarationHash_{};
     /// Current primitive type.
     unsigned primitiveType_{};
     /// Vertex shader in use.

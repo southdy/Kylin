@@ -132,7 +132,6 @@
 #include <Urho3D/Graphics/Texture3D.h>
 #include <Urho3D/Graphics/TextureCube.h>
 #include <Urho3D/Graphics/VertexBuffer.h>
-#include <Urho3D/Graphics/VertexDeclaration.h>
 #include <Urho3D/Graphics/View.h>
 #include <Urho3D/Graphics/Viewport.h>
 #include <Urho3D/Graphics/Zone.h>

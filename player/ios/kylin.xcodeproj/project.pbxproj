@@ -1344,7 +1344,6 @@
 		F103CF61235E19460043805E /* AnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationController.h; sourceTree = "<group>"; };
 		F103CF62235E19460043805E /* AnimationController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationController.cpp; sourceTree = "<group>"; };
 		F103CF63235E19460043805E /* Skybox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Skybox.cpp; sourceTree = "<group>"; };
-		F103CF64235E19460043805E /* VertexDeclaration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VertexDeclaration.h; sourceTree = "<group>"; };
 		F103CF65235E19460043805E /* RenderPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderPath.h; sourceTree = "<group>"; };
 		F103CF66235E19460043805E /* GraphicsDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphicsDefs.h; sourceTree = "<group>"; };
 		F103CF67235E19460043805E /* CustomGeometry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CustomGeometry.cpp; sourceTree = "<group>"; };
@@ -3776,7 +3775,6 @@
 				F103CF61235E19460043805E /* AnimationController.h */,
 				F103CF62235E19460043805E /* AnimationController.cpp */,
 				F103CF63235E19460043805E /* Skybox.cpp */,
-				F103CF64235E19460043805E /* VertexDeclaration.h */,
 				F103CF65235E19460043805E /* RenderPath.h */,
 				F103CF66235E19460043805E /* GraphicsDefs.h */,
 				F103CF67235E19460043805E /* CustomGeometry.cpp */,
