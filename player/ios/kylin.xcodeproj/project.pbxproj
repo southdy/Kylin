@@ -51,7 +51,6 @@
 		F103CFD5235E19460043805E /* StringUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CDBC235E19460043805E /* StringUtils.cpp */; };
 		F103CFD6235E19460043805E /* StringHashRegister.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CDBD235E19460043805E /* StringHashRegister.cpp */; };
 		F103CFD7235E19460043805E /* Variant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CDC1235E19460043805E /* Variant.cpp */; };
-		F103CFD8235E19460043805E /* MiniDump.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CDC2235E19460043805E /* MiniDump.cpp */; };
 		F103CFD9235E19460043805E /* Spline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CDC9235E19460043805E /* Spline.cpp */; };
 		F103CFDA235E19460043805E /* Sprite2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CDD3235E19460043805E /* Sprite2D.cpp */; };
 		F103CFDB235E19460043805E /* SpriterData2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CDD6235E19460043805E /* SpriterData2D.cpp */; };
@@ -927,7 +926,6 @@
 		F103CDAD235E19460043805E /* Thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Thread.cpp; sourceTree = "<group>"; };
 		F103CDAE235E19460043805E /* WorkQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorkQueue.cpp; sourceTree = "<group>"; };
 		F103CDAF235E19460043805E /* ProcessUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProcessUtils.cpp; sourceTree = "<group>"; };
-		F103CDB0235E19460043805E /* MiniDump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiniDump.h; sourceTree = "<group>"; };
 		F103CDB1235E19460043805E /* Condition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Condition.h; sourceTree = "<group>"; };
 		F103CDB2235E19460043805E /* Profiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Profiler.cpp; sourceTree = "<group>"; };
 		F103CDB3235E19460043805E /* Spline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spline.h; sourceTree = "<group>"; };
@@ -945,7 +943,6 @@
 		F103CDBF235E19460043805E /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread.h; sourceTree = "<group>"; };
 		F103CDC0235E19460043805E /* StringHashRegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringHashRegister.h; sourceTree = "<group>"; };
 		F103CDC1235E19460043805E /* Variant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Variant.cpp; sourceTree = "<group>"; };
-		F103CDC2235E19460043805E /* MiniDump.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MiniDump.cpp; sourceTree = "<group>"; };
 		F103CDC3235E19460043805E /* CoreEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreEvents.h; sourceTree = "<group>"; };
 		F103CDC4235E19460043805E /* Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Object.h; sourceTree = "<group>"; };
 		F103CDC5235E19460043805E /* EventProfiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventProfiler.h; sourceTree = "<group>"; };
@@ -3256,7 +3253,6 @@
 				F103CDAD235E19460043805E /* Thread.cpp */,
 				F103CDAE235E19460043805E /* WorkQueue.cpp */,
 				F103CDAF235E19460043805E /* ProcessUtils.cpp */,
-				F103CDB0235E19460043805E /* MiniDump.h */,
 				F103CDB1235E19460043805E /* Condition.h */,
 				F103CDB2235E19460043805E /* Profiler.cpp */,
 				F103CDB3235E19460043805E /* Spline.h */,
@@ -3274,7 +3270,6 @@
 				F103CDBF235E19460043805E /* Thread.h */,
 				F103CDC0235E19460043805E /* StringHashRegister.h */,
 				F103CDC1235E19460043805E /* Variant.cpp */,
-				F103CDC2235E19460043805E /* MiniDump.cpp */,
 				F103CDC3235E19460043805E /* CoreEvents.h */,
 				F103CDC4235E19460043805E /* Object.h */,
 				F103CDC5235E19460043805E /* EventProfiler.h */,
@@ -6749,7 +6744,6 @@
 				F1C9EFCD227A8EB800B3B57E /* ftmm.c in Sources */,
 				F1C9F1C5227A910400B3B57E /* SphereTriangleDetector.cpp in Sources */,
 				F1C9F1E7227A910500B3B57E /* btCompoundShape.cpp in Sources */,
-				F103CFD8235E19460043805E /* MiniDump.cpp in Sources */,
 				F103D52F235E19900043805E /* SDL_yuv.c in Sources */,
 				F1C9F2BE227A910900B3B57E /* b2TimeOfImpact.cpp in Sources */,
 				F103D057235E19470043805E /* PhysicsWorld.cpp in Sources */,

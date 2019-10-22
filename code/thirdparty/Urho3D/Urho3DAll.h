@@ -61,7 +61,6 @@
 #include <Urho3D/Core/CoreEvents.h>
 #include <Urho3D/Core/EventProfiler.h>
 #include <Urho3D/Core/Main.h>
-#include <Urho3D/Core/MiniDump.h>
 #include <Urho3D/Core/Mutex.h>
 #include <Urho3D/Core/Object.h>
 #include <Urho3D/Core/ProcessUtils.h>
