@@ -30,13 +30,6 @@
 namespace Urho3D
 {
 
-/// Supported database API.
-enum DBAPI
-{
-    DBAPI_SQLITE = 0,
-    DBAPI_ODBC
-};
-
 class DbConnection;
 
 /// %Database subsystem. Manage database connections.
@@ -47,8 +40,6 @@ class URHO3D_API Database : public Object
 public:
     /// Construct.
     explicit Database(Context* context_);
-    /// Return the underlying database API.
-    static DBAPI GetAPI();
 
     /// Create new database connection. Return 0 if failed.
     DbConnection* Connect(const String& connectionString);

@@ -37,7 +37,6 @@
 		F103CFC6235E19460043805E /* DropDownList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CD99235E19460043805E /* DropDownList.cpp */; };
 		F103CFC7235E19460043805E /* ScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CD9C235E19460043805E /* ScrollView.cpp */; };
 		F103CFC8235E19460043805E /* Text3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CD9D235E19460043805E /* Text3D.cpp */; };
-		F103CFC9235E19460043805E /* SQLiteConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CDA2235E19460043805E /* SQLiteConnection.cpp */; };
 		F103CFCA235E19460043805E /* Database.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CDA6235E19460043805E /* Database.cpp */; };
 		F103CFCB235E19460043805E /* Condition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CDAA235E19460043805E /* Condition.cpp */; };
 		F103CFCC235E19460043805E /* Mutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CDAC235E19460043805E /* Mutex.cpp */; };
@@ -449,6 +448,7 @@
 		F124A7DE2281C36400739BFF /* ldump.c in Sources */ = {isa = PBXBuildFile; fileRef = F124A7BC2281C36300739BFF /* ldump.c */; };
 		F124A7DF2281C36400739BFF /* llex.c in Sources */ = {isa = PBXBuildFile; fileRef = F124A7BD2281C36300739BFF /* llex.c */; };
 		F124A7E02281C36400739BFF /* loadlib.c in Sources */ = {isa = PBXBuildFile; fileRef = F124A7C02281C36400739BFF /* loadlib.c */; };
+		F12573A0235F55D100B847AF /* DbConnection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F125739F235F55D100B847AF /* DbConnection.cpp */; };
 		F1732FD622188E8B00240836 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1732FD522188E8B00240836 /* Foundation.framework */; };
 		F1732FD822188E9900240836 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1732FD722188E9900240836 /* CoreGraphics.framework */; };
 		F1732FDA22188EAE00240836 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1732FD922188EAD00240836 /* UIKit.framework */; };
@@ -917,9 +917,6 @@
 		F103CD9C235E19460043805E /* ScrollView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollView.cpp; sourceTree = "<group>"; };
 		F103CD9D235E19460043805E /* Text3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Text3D.cpp; sourceTree = "<group>"; };
 		F103CD9F235E19460043805E /* DbConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DbConnection.h; sourceTree = "<group>"; };
-		F103CDA1235E19460043805E /* SQLiteResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLiteResult.h; sourceTree = "<group>"; };
-		F103CDA2235E19460043805E /* SQLiteConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SQLiteConnection.cpp; sourceTree = "<group>"; };
-		F103CDA3235E19460043805E /* SQLiteConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLiteConnection.h; sourceTree = "<group>"; };
 		F103CDA4235E19460043805E /* DatabaseEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseEvents.h; sourceTree = "<group>"; };
 		F103CDA5235E19460043805E /* DbResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DbResult.h; sourceTree = "<group>"; };
 		F103CDA6235E19460043805E /* Database.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Database.cpp; sourceTree = "<group>"; };
@@ -1791,6 +1788,7 @@
 		F124A7C02281C36400739BFF /* loadlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = loadlib.c; sourceTree = "<group>"; };
 		F124A7C12281C36400739BFF /* ltm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ltm.h; sourceTree = "<group>"; };
 		F124A7C22281C36400739BFF /* lfunc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lfunc.h; sourceTree = "<group>"; };
+		F125739F235F55D100B847AF /* DbConnection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DbConnection.cpp; sourceTree = "<group>"; };
 		F1732FD522188E8B00240836 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F1732FD722188E9900240836 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		F1732FD922188EAD00240836 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -3240,24 +3238,14 @@
 		F103CD9E235E19460043805E /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				F125739F235F55D100B847AF /* DbConnection.cpp */,
 				F103CD9F235E19460043805E /* DbConnection.h */,
-				F103CDA0235E19460043805E /* SQLite */,
 				F103CDA4235E19460043805E /* DatabaseEvents.h */,
 				F103CDA5235E19460043805E /* DbResult.h */,
 				F103CDA6235E19460043805E /* Database.cpp */,
 				F103CDA7235E19460043805E /* Database.h */,
 			);
 			path = Database;
-			sourceTree = "<group>";
-		};
-		F103CDA0235E19460043805E /* SQLite */ = {
-			isa = PBXGroup;
-			children = (
-				F103CDA1235E19460043805E /* SQLiteResult.h */,
-				F103CDA2235E19460043805E /* SQLiteConnection.cpp */,
-				F103CDA3235E19460043805E /* SQLiteConnection.h */,
-			);
-			path = SQLite;
 			sourceTree = "<group>";
 		};
 		F103CDA9235E19460043805E /* Core */ = {
@@ -7040,7 +7028,6 @@
 				F1C9F20D227A910500B3B57E /* btMultiBodyConstraintSolver.cpp in Sources */,
 				F124A7D92281C36400739BFF /* lapi.c in Sources */,
 				F103D659235E19910043805E /* SDL_hidapijoystick.c in Sources */,
-				F103CFC9235E19460043805E /* SQLiteConnection.cpp in Sources */,
 				F103D667235E19910043805E /* SDL_dropevents.c in Sources */,
 				F1C9ECC9227A8E8A00B3B57E /* RecastArea.cpp in Sources */,
 				F1C9F29C227A910900B3B57E /* b2ContactSolver.cpp in Sources */,
@@ -7168,6 +7155,7 @@
 				F1C9F1D6227A910400B3B57E /* btContactProcessing.cpp in Sources */,
 				F103D657235E19910043805E /* SDL_hidapi_xbox360.c in Sources */,
 				F103D077235E19470043805E /* GraphicsDefs.cpp in Sources */,
+				F12573A0235F55D100B847AF /* DbConnection.cpp in Sources */,
 				F1C9E785227A8C5000B3B57E /* Getche.cpp in Sources */,
 				F103D060235E19470043805E /* Scene.cpp in Sources */,
 				F103D5F0235E19910043805E /* SDL_coreaudio.m in Sources */,

@@ -20,10 +20,10 @@
 // THE SOFTWARE.
 //
 
-#include "../../Precompiled.h"
+#include "../Precompiled.h"
 
-#include "../../Database/DatabaseEvents.h"
-#include "../../IO/Log.h"
+#include "../Database/DatabaseEvents.h"
+#include "../IO/Log.h"
 
 namespace Urho3D
 {

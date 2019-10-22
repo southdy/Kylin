@@ -41,8 +41,6 @@ TOLUA_API int tolua_DatabaseLuaAPI_open (lua_State* tolua_S);
 using namespace Urho3D;
 #pragma warning(disable:4800)
 
-#define DatabaseGetAPI Database::GetAPI
-
 #define TOLUA_DISABLE_tolua_DatabaseLuaAPI_GetDatabase00
 static int tolua_DatabaseLuaAPI_GetDatabase00(lua_State* tolua_S)
 {
@@ -583,33 +581,6 @@ static int tolua_set_Database_poolSize(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* function: DatabaseGetAPI */
-#ifndef TOLUA_DISABLE_tolua_DatabaseLuaAPI_GetDBAPI00
-static int tolua_DatabaseLuaAPI_GetDBAPI00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
- !tolua_isnoobj(tolua_S,1,&tolua_err)
- )
- goto tolua_lerror;
- else
-#endif
- {
- {
-  DBAPI tolua_ret = (DBAPI)  DatabaseGetAPI();
- tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
- }
- }
- return 1;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'GetDBAPI'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
 /* function: GetDatabase */
 #ifndef TOLUA_DISABLE_tolua_DatabaseLuaAPI_GetDatabase00
 static int tolua_DatabaseLuaAPI_GetDatabase00(lua_State* tolua_S)
@@ -675,8 +646,6 @@ TOLUA_API int tolua_DatabaseLuaAPI_open (lua_State* tolua_S)
   tolua_variable(tolua_S,"connectionString",tolua_get_DbConnection_connectionString,NULL);
   tolua_variable(tolua_S,"connected",tolua_get_DbConnection_connected,NULL);
  tolua_endmodule(tolua_S);
- tolua_constant(tolua_S,"DBAPI_SQLITE",DBAPI_SQLITE);
- tolua_constant(tolua_S,"DBAPI_ODBC",DBAPI_ODBC);
  tolua_cclass(tolua_S,"Database","Database","Object",NULL);
  tolua_beginmodule(tolua_S,"Database");
   tolua_function(tolua_S,"Connect",tolua_DatabaseLuaAPI_Database_Connect00);
@@ -687,7 +656,6 @@ TOLUA_API int tolua_DatabaseLuaAPI_open (lua_State* tolua_S)
   tolua_variable(tolua_S,"pooling",tolua_get_Database_pooling,NULL);
   tolua_variable(tolua_S,"poolSize",tolua_get_Database_poolSize,tolua_set_Database_poolSize);
  tolua_endmodule(tolua_S);
- tolua_function(tolua_S,"GetDBAPI",tolua_DatabaseLuaAPI_GetDBAPI00);
  tolua_function(tolua_S,"GetDatabase",tolua_DatabaseLuaAPI_GetDatabase00);
  tolua_variable(tolua_S,"database",tolua_get_database_ptr,NULL);
  tolua_endmodule(tolua_S);

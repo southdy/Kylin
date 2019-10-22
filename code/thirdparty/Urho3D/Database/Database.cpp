@@ -34,11 +34,6 @@ Database::Database(Context* context_) :
 {
 }
 
-DBAPI Database::GetAPI()
-{
-    return DBAPI_SQLITE;
-}
-
 DbConnection* Database::Connect(const String& connectionString)
 {
     URHO3D_PROFILE(DatabaseConnect);
