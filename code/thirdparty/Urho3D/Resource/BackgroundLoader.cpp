@@ -31,7 +31,6 @@
 #include "../Resource/ResourceCache.h"
 #include "../Resource/ResourceEvents.h"
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

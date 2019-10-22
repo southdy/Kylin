@@ -36,7 +36,6 @@
 #include <Detour/DetourCommon.h>
 #include <DetourCrowd/DetourCrowd.h>
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

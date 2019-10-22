@@ -179,7 +179,6 @@
 		F103D055235E19470043805E /* CollisionShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CEDA235E19460043805E /* CollisionShape.cpp */; };
 		F103D056235E19470043805E /* RaycastVehicle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CEDB235E19460043805E /* RaycastVehicle.cpp */; };
 		F103D057235E19470043805E /* PhysicsWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CEDF235E19460043805E /* PhysicsWorld.cpp */; };
-		F103D058235E19470043805E /* LibraryInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CEE4235E19460043805E /* LibraryInfo.cpp */; };
 		F103D059235E19470043805E /* IKSolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CEE6235E19460043805E /* IKSolver.cpp */; };
 		F103D05A235E19470043805E /* IKConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CEE7235E19460043805E /* IKConstraint.cpp */; };
 		F103D05B235E19470043805E /* IKEffector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F103CEE9235E19460043805E /* IKEffector.cpp */; };
@@ -925,7 +924,6 @@
 		F103CDA5235E19460043805E /* DbResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DbResult.h; sourceTree = "<group>"; };
 		F103CDA6235E19460043805E /* Database.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Database.cpp; sourceTree = "<group>"; };
 		F103CDA7235E19460043805E /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
-		F103CDA8235E19460043805E /* librevision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = librevision.h; sourceTree = "<group>"; };
 		F103CDAA235E19460043805E /* Condition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Condition.cpp; sourceTree = "<group>"; };
 		F103CDAB235E19460043805E /* Main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Main.h; sourceTree = "<group>"; };
 		F103CDAC235E19460043805E /* Mutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mutex.cpp; sourceTree = "<group>"; };
@@ -1213,7 +1211,6 @@
 		F103CED1235E19460043805E /* OggVorbisSoundStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OggVorbisSoundStream.cpp; sourceTree = "<group>"; };
 		F103CED2235E19460043805E /* SoundSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundSource.h; sourceTree = "<group>"; };
 		F103CED3235E19460043805E /* Precompiled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Precompiled.h; sourceTree = "<group>"; };
-		F103CED4235E19460043805E /* LibraryInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryInfo.h; sourceTree = "<group>"; };
 		F103CED6235E19460043805E /* PhysicsUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsUtils.h; sourceTree = "<group>"; };
 		F103CED7235E19460043805E /* Constraint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Constraint.cpp; sourceTree = "<group>"; };
 		F103CED8235E19460043805E /* PhysicsEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsEvents.h; sourceTree = "<group>"; };
@@ -1227,8 +1224,6 @@
 		F103CEE0235E19460043805E /* PhysicsWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsWorld.h; sourceTree = "<group>"; };
 		F103CEE1235E19460043805E /* CollisionShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollisionShape.h; sourceTree = "<group>"; };
 		F103CEE2235E19460043805E /* Urho3DConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Urho3DConfig.h; sourceTree = "<group>"; };
-		F103CEE3235E19460043805E /* DebugNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugNew.h; sourceTree = "<group>"; };
-		F103CEE4235E19460043805E /* LibraryInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LibraryInfo.cpp; sourceTree = "<group>"; };
 		F103CEE6235E19460043805E /* IKSolver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IKSolver.cpp; sourceTree = "<group>"; };
 		F103CEE7235E19460043805E /* IKConstraint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IKConstraint.cpp; sourceTree = "<group>"; };
 		F103CEE8235E19460043805E /* IKEffector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IKEffector.h; sourceTree = "<group>"; };
@@ -3151,7 +3146,6 @@
 			children = (
 				F103CD62235E19460043805E /* UI */,
 				F103CD9E235E19460043805E /* Database */,
-				F103CDA8235E19460043805E /* librevision.h */,
 				F103CDA9235E19460043805E /* Core */,
 				F103CDCB235E19460043805E /* Urho2D */,
 				F103CE19235E19460043805E /* LuaScript */,
@@ -3165,11 +3159,8 @@
 				F103CEA6235E19460043805E /* Container */,
 				F103CEC0235E19460043805E /* Audio */,
 				F103CED3235E19460043805E /* Precompiled.h */,
-				F103CED4235E19460043805E /* LibraryInfo.h */,
 				F103CED5235E19460043805E /* Physics */,
 				F103CEE2235E19460043805E /* Urho3DConfig.h */,
-				F103CEE3235E19460043805E /* DebugNew.h */,
-				F103CEE4235E19460043805E /* LibraryInfo.cpp */,
 				F103CEE5235E19460043805E /* IK */,
 				F103CEF1235E19460043805E /* Scene */,
 				F103CF0F235E19460043805E /* Resource */,
@@ -7070,7 +7061,6 @@
 				F103D5A4235E19910043805E /* SDL_rwopsbundlesupport.m in Sources */,
 				F103D035235E19470043805E /* Matrix4.cpp in Sources */,
 				F103D078235E19470043805E /* StaticModelGroup.cpp in Sources */,
-				F103D058235E19470043805E /* LibraryInfo.cpp in Sources */,
 				F1C9E775227A8C5000B3B57E /* RakPeer.cpp in Sources */,
 				F1C9F19E227A910400B3B57E /* btDefaultSoftBodySolver.cpp in Sources */,
 				F1C9F213227A910500B3B57E /* btLemkeAlgorithm.cpp in Sources */,
@@ -7482,16 +7472,9 @@
 					"DEBUG=1",
 					URHO3D_STATIC_DEFINE,
 					URHO3D_FILEWATCHER,
-					URHO3D_LUA,
-					URHO3D_IK,
 					URHO3D_LOGGING,
-					URHO3D_NAVIGATION,
-					URHO3D_DATABASE,
-					URHO3D_NETWORK,
-					URHO3D_PHYSICS,
 					URHO3D_PROFILING,
 					URHO3D_THREADING,
-					URHO3D_URHO2D,
 					IOS,
 					FT2_BUILD_LIBRARY,
 					"SQLITE_USE_URI=1",
@@ -7589,16 +7572,9 @@
 					NDEBUG,
 					URHO3D_STATIC_DEFINE,
 					URHO3D_FILEWATCHER,
-					URHO3D_LUA,
-					URHO3D_IK,
 					URHO3D_LOGGING,
-					URHO3D_NAVIGATION,
-					URHO3D_DATABASE,
-					URHO3D_NETWORK,
-					URHO3D_PHYSICS,
 					URHO3D_PROFILING,
 					URHO3D_THREADING,
-					URHO3D_URHO2D,
 					IOS,
 					FT2_BUILD_LIBRARY,
 					"SQLITE_USE_URI=1",

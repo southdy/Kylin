@@ -36,7 +36,6 @@
 #include "../Urho2D/PhysicsWorld2D.h"
 #include "../Urho2D/RigidBody2D.h"
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

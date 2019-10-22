@@ -43,12 +43,6 @@ public:
     void Stop() override;
 
 private:
-    /// Handle reload start of the script file.
-    void HandleScriptReloadStarted(StringHash eventType, VariantMap& eventData);
-    /// Handle reload success of the script file.
-    void HandleScriptReloadFinished(StringHash eventType, VariantMap& eventData);
-    /// Handle reload failure of the script file.
-    void HandleScriptReloadFailed(StringHash eventType, VariantMap& eventData);
     /// Parse script file name from the first argument.
     void GetScriptFileName();
 
@@ -56,9 +50,4 @@ private:
     String scriptFileName_;
     /// Flag whether CommandLine.txt was already successfully read.
     bool commandLineRead_;
-
-#ifdef URHO3D_ANGELSCRIPT
-    /// Script file.
-    SharedPtr<ScriptFile> scriptFile_;
-#endif
 };

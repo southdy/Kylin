@@ -78,7 +78,6 @@ const char* SDL_IOS_GetDocumentsDir();
 #endif
 }
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

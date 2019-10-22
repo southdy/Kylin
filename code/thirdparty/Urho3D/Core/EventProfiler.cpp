@@ -24,7 +24,6 @@
 
 #include "../Core/EventProfiler.h"
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

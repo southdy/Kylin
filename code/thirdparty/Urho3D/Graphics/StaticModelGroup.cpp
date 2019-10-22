@@ -33,7 +33,6 @@
 #include "../Graphics/VertexBuffer.h"
 #include "../Scene/Scene.h"
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

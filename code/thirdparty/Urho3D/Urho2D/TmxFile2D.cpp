@@ -33,7 +33,6 @@
 #include "../Urho2D/TmxFile2D.h"
 #include "../Math/AreaAllocator.h"
 
-#include "../DebugNew.h"
 
 
 namespace Urho3D

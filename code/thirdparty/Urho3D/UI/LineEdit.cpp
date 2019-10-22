@@ -29,7 +29,6 @@
 #include "../UI/UI.h"
 #include "../UI/UIEvents.h"
 
-#include "../DebugNew.h"
 
 #include <SDL.h>
 

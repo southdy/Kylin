@@ -97,7 +97,6 @@ inline void SetFPUState(unsigned control)
 #include <SDL.h>
 #endif
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

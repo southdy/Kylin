@@ -25,10 +25,6 @@
 #include "../Math/Rect.h"
 #include "../Math/Vector3.h"
 
-#ifdef URHO3D_SSE
-#include <xmmintrin.h>
-#endif
-
 namespace Urho3D
 {
 
@@ -77,14 +73,6 @@ public:
         max_(Vector3(max, max, max))
     {
     }
-
-#ifdef URHO3D_SSE
-    BoundingBox(__m128 min, __m128 max) noexcept
-    {
-        _mm_storeu_ps(&min_.x_, min);
-        _mm_storeu_ps(&max_.x_, max);
-    }
-#endif
 
     /// Construct from an array of vertices.
     BoundingBox(const Vector3* vertices, unsigned count) :
@@ -175,11 +163,6 @@ public:
     /// Merge a point.
     void Merge(const Vector3& point)
     {
-#ifdef URHO3D_SSE
-        __m128 vec = _mm_set_ps(1.f, point.z_, point.y_, point.x_);
-        _mm_storeu_ps(&min_.x_, _mm_min_ps(_mm_loadu_ps(&min_.x_), vec));
-        _mm_storeu_ps(&max_.x_, _mm_max_ps(_mm_loadu_ps(&max_.x_), vec));
-#else
         if (point.x_ < min_.x_)
             min_.x_ = point.x_;
         if (point.y_ < min_.y_)
@@ -192,16 +175,11 @@ public:
             max_.y_ = point.y_;
         if (point.z_ > max_.z_)
             max_.z_ = point.z_;
-#endif
     }
 
     /// Merge another bounding box.
     void Merge(const BoundingBox& box)
     {
-#ifdef URHO3D_SSE
-        _mm_storeu_ps(&min_.x_, _mm_min_ps(_mm_loadu_ps(&min_.x_), _mm_loadu_ps(&box.min_.x_)));
-        _mm_storeu_ps(&max_.x_, _mm_max_ps(_mm_loadu_ps(&max_.x_), _mm_loadu_ps(&box.max_.x_)));
-#else
         if (box.min_.x_ < min_.x_)
             min_.x_ = box.min_.x_;
         if (box.min_.y_ < min_.y_)
@@ -214,7 +192,6 @@ public:
             max_.y_ = box.max_.y_;
         if (box.max_.z_ > max_.z_)
             max_.z_ = box.max_.z_;
-#endif
     }
 
     /// Define from an array of vertices.
@@ -243,13 +220,8 @@ public:
     /// Clear to undefined state.
     void Clear()
     {
-#ifdef URHO3D_SSE
-        _mm_storeu_ps(&min_.x_, _mm_set1_ps(M_INFINITY));
-        _mm_storeu_ps(&max_.x_, _mm_set1_ps(-M_INFINITY));
-#else
         min_ = Vector3(M_INFINITY, M_INFINITY, M_INFINITY);
         max_ = Vector3(-M_INFINITY, -M_INFINITY, -M_INFINITY);
-#endif
     }
 
     /// Return true if this bounding box is defined via a previous call to Define() or Merge().

@@ -30,7 +30,6 @@
 #include "../Scene/ValueAnimation.h"
 #include "../Scene/ValueAnimationInfo.h"
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

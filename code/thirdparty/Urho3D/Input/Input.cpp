@@ -49,7 +49,6 @@
 #include <emscripten/html5.h>
 #endif
 
-#include "../DebugNew.h"
 
 extern "C" int SDL_AddTouch(SDL_TouchID touchID, SDL_TouchDeviceType type, const char* name);
 

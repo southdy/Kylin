@@ -26,7 +26,6 @@
 #include "../LuaScript/LuaScriptEventInvoker.h"
 #include "../LuaScript/LuaScriptInstance.h"
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

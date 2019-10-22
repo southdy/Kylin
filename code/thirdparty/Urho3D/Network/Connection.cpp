@@ -45,7 +45,6 @@
 #undef SendMessage
 #endif
 
-#include "../DebugNew.h"
 
 #include <cstdio>
 

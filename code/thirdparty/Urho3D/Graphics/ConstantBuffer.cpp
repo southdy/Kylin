@@ -26,7 +26,6 @@
 #include "../Graphics/ConstantBuffer.h"
 #include "../IO/Log.h"
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

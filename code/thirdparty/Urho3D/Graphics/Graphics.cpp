@@ -56,7 +56,6 @@
 
 #include <SDL.h>
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

@@ -32,9 +32,7 @@
 #include "../LuaScript/LuaScript.h"
 #include "../LuaScript/LuaScriptEventInvoker.h"
 #include "../LuaScript/LuaScriptInstance.h"
-#if defined(URHO3D_PHYSICS) || defined(URHO3D_URHO2D)
 #include "../Physics/PhysicsEvents.h"
-#endif
 #include "../Resource/ResourceCache.h"
 #include "../Scene/Scene.h"
 #include "../Scene/SceneEvents.h"
@@ -42,7 +40,6 @@
 #include <toluapp/tolua++.h>
 #include "../LuaScript/ToluaUtils.h"
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {
@@ -625,7 +622,6 @@ void LuaScriptInstance::SubscribeToScriptMethodEvents()
     if (scene && scriptObjectMethods_[LSOM_POSTUPDATE])
         SubscribeToEvent(scene, E_SCENEPOSTUPDATE, URHO3D_HANDLER(LuaScriptInstance, HandlePostUpdate));
 
-#if defined(URHO3D_PHYSICS) || defined(URHO3D_URHO2D)
     Component* world = GetFixedUpdateSource();
 
     if (world && scriptObjectMethods_[LSOM_FIXEDUPDATE])
@@ -633,7 +629,6 @@ void LuaScriptInstance::SubscribeToScriptMethodEvents()
 
     if (world && scriptObjectMethods_[LSOM_FIXEDPOSTUPDATE])
         SubscribeToEvent(world, E_PHYSICSPOSTSTEP, URHO3D_HANDLER(LuaScriptInstance, HandlePostFixedUpdate));
-#endif
 
     if (node_ && scriptObjectMethods_[LSOM_TRANSFORMCHANGED])
         node_->AddListener(this);
@@ -644,10 +639,8 @@ void LuaScriptInstance::UnsubscribeFromScriptMethodEvents()
     UnsubscribeFromEvent(E_SCENEUPDATE);
     UnsubscribeFromEvent(E_SCENEPOSTUPDATE);
 
-#if defined(URHO3D_PHYSICS) || defined(URHO3D_URHO2D)
     UnsubscribeFromEvent(E_PHYSICSPRESTEP);
     UnsubscribeFromEvent(E_PHYSICSPOSTSTEP);
-#endif
 
     if (node_ && scriptObjectMethods_[LSOM_TRANSFORMCHANGED])
         node_->RemoveListener(this);
@@ -687,8 +680,6 @@ void LuaScriptInstance::HandlePostUpdate(StringHash eventType, VariantMap& event
     }
 }
 
-#if defined(URHO3D_PHYSICS) || defined(URHO3D_URHO2D)
-
 void LuaScriptInstance::HandleFixedUpdate(StringHash eventType, VariantMap& eventData)
 {
     // Execute delayed start before first fixed update if not called yet
@@ -722,8 +713,6 @@ void LuaScriptInstance::HandlePostFixedUpdate(StringHash eventType, VariantMap& 
         function->EndCall();
     }
 }
-
-#endif
 
 void LuaScriptInstance::ReleaseObject()
 {

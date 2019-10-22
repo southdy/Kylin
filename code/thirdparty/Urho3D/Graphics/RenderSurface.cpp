@@ -29,7 +29,6 @@
 #include "../Graphics/RenderSurface.h"
 #include "../Graphics/Texture.h"
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

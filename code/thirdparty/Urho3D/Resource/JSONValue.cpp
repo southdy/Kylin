@@ -27,7 +27,6 @@
 #include "../IO/Log.h"
 #include "../Resource/JSONValue.h"
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

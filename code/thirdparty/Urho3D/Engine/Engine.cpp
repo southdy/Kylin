@@ -38,36 +38,23 @@
 #include "../IO/FileSystem.h"
 #include "../IO/Log.h"
 #include "../IO/PackageFile.h"
-#ifdef URHO3D_IK
 #include "../IK/IK.h"
-#endif
-#ifdef URHO3D_NAVIGATION
 #include "../Navigation/NavigationMesh.h"
-#endif
-#ifdef URHO3D_NETWORK
 #include "../Network/Network.h"
-#endif
-#ifdef URHO3D_DATABASE
 #include "../Database/Database.h"
-#endif
-#ifdef URHO3D_PHYSICS
 #include "../Physics/PhysicsWorld.h"
 #include "../Physics/RaycastVehicle.h"
-#endif
 #include "../Resource/ResourceCache.h"
 #include "../Resource/Localization.h"
 #include "../Scene/Scene.h"
 #include "../Scene/SceneEvents.h"
 #include "../UI/UI.h"
-#ifdef URHO3D_URHO2D
 #include "../Urho2D/Urho2D.h"
-#endif
 
 #if defined(__EMSCRIPTEN__) && defined(URHO3D_TESTING)
 #include <emscripten/emscripten.h>
 #endif
 
-#include "../DebugNew.h"
 
 
 #if defined(_MSC_VER) && defined(_DEBUG)
@@ -130,30 +117,17 @@ Engine::Engine(Context* context) :
 #endif
     context_->RegisterSubsystem(new ResourceCache(context_));
     context_->RegisterSubsystem(new Localization(context_));
-#ifdef URHO3D_NETWORK
     context_->RegisterSubsystem(new Network(context_));
-#endif
-#ifdef URHO3D_DATABASE
     context_->RegisterSubsystem(new Database(context_));
-#endif
     context_->RegisterSubsystem(new Input(context_));
     context_->RegisterSubsystem(new Audio(context_));
     context_->RegisterSubsystem(new UI(context_));
 
     // Register object factories for libraries which are not automatically registered along with subsystem creation
     RegisterSceneLibrary(context_);
-
-#ifdef URHO3D_IK
     RegisterIKLibrary(context_);
-#endif
-
-#ifdef URHO3D_PHYSICS
     RegisterPhysicsLibrary(context_);
-#endif
-
-#ifdef URHO3D_NAVIGATION
     RegisterNavigationLibrary(context_);
-#endif
 
     SubscribeToEvent(E_EXITREQUESTED, URHO3D_HANDLER(Engine, HandleExitRequested));
 }
@@ -182,10 +156,8 @@ bool Engine::Initialize(const VariantMap& parameters)
         RegisterGraphicsLibrary(context_);
     }
 
-#ifdef URHO3D_URHO2D
     // 2D graphics library is dependent on 3D graphics library
     RegisterUrho2DLibrary(context_);
-#endif
 
     // Start logging
     auto* log = GetSubsystem<Log>();
@@ -294,10 +266,8 @@ bool Engine::Initialize(const VariantMap& parameters)
         GetSubsystem<Input>()->SetTouchEmulation(GetParameter(parameters, EP_TOUCH_EMULATION).GetBool());
 
     // Initialize network
-#ifdef URHO3D_NETWORK
     if (HasParameter(parameters, EP_PACKAGE_CACHE_DIR))
         GetSubsystem<Network>()->SetPackageCacheDir(GetParameter(parameters, EP_PACKAGE_CACHE_DIR).GetString());
-#endif
 
 #ifdef URHO3D_TESTING
     if (HasParameter(parameters, EP_TIME_OUT))

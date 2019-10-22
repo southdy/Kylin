@@ -38,7 +38,6 @@
 #include "../Resource/ResourceEvents.h"
 #include "../Resource/XMLFile.h"
 
-#include "../DebugNew.h"
 
 #include <cstdio>
 

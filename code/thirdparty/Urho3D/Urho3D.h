@@ -26,10 +26,6 @@
 /* #undef URHO3D_STATIC_DEFINE */
 #define URHO3D_OPENGL
 /* #undef URHO3D_D3D11 */
-/* #undef URHO3D_SSE */
-/* #undef URHO3D_DATABASE_ODBC */
-#define URHO3D_DATABASE_SQLITE
-/* #undef URHO3D_LUAJIT */
 /* #undef URHO3D_TESTING */
 
 /* #undef CLANG_PRE_STANDARD */

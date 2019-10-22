@@ -32,7 +32,6 @@
 #include "../Scene/SceneEvents.h"
 #include "../Scene/Serializable.h"
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

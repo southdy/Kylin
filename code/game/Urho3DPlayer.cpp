@@ -20,24 +20,16 @@
 // THE SOFTWARE.
 //
 
-#ifdef URHO3D_ANGELSCRIPT
-#include <Urho3D/AngelScript/ScriptFile.h>
-#include <Urho3D/AngelScript/Script.h>
-#endif
 #include <Urho3D/Core/Main.h>
 #include <Urho3D/Engine/Engine.h>
 #include <Urho3D/Engine/EngineDefs.h>
 #include <Urho3D/IO/FileSystem.h>
 #include <Urho3D/IO/Log.h>
-#ifdef URHO3D_LUA
 #include <Urho3D/LuaScript/LuaScript.h>
-#endif
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/Resource/ResourceEvents.h>
 
 #include "Urho3DPlayer.h"
-
-#include <Urho3D/DebugNew.h>
 
 URHO3D_DEFINE_APPLICATION_MAIN(Urho3DPlayer);
 
@@ -49,9 +41,6 @@ Urho3DPlayer::Urho3DPlayer(Context* context) :
 
 void Urho3DPlayer::Setup()
 {
-    // Web platform depends on the resource system to read any data files. Skip parsing the command line file now
-    // and try later when the resource system is live
-#ifndef __EMSCRIPTEN__
     // Read command line from a file if no arguments given. This is primarily intended for mobile platforms.
     // Note that the command file name uses a hardcoded path that does not utilize the resource system
     // properly (including resource path prefix), as the resource system is not yet initialized at this point
@@ -70,19 +59,16 @@ void Urho3DPlayer::Setup()
             engineParameters_ = Engine::ParseParameters(GetArguments());
         }
     }
-#endif
 
     // Check for script file name from the arguments
     GetScriptFileName();
 
-#ifndef __EMSCRIPTEN__
     // Show usage if not found
     if ((GetArguments().Size() || commandLineRead_) && scriptFileName_.Empty())
     {
         ErrorExit("Usage: Urho3DPlayer <scriptfile> [options]\n\n"
             "The script file should implement the function void Start() for initializing the "
             "application and subscribing to all necessary events, such as the frame update.\n"
-            #ifndef _WIN32
             "\nCommand line options:\n"
             "-x <res>     Horizontal resolution\n"
             "-y <res>     Vertical resolution\n"
@@ -125,7 +111,6 @@ void Urho3DPlayer::Setup()
             "-nosound     Disable sound output\n"
             "-noip        Disable sound mixing interpolation\n"
             "-touch       Touch emulation on desktop platform\n"
-            #endif
         );
     }
     else
@@ -133,10 +118,6 @@ void Urho3DPlayer::Setup()
         // Use the script file name as the base name for the log file
         engineParameters_[EP_LOG_NAME] = filesystem->GetAppPreferencesDir("urho3d", "logs") + GetFileNameAndExtension(scriptFileName_) + ".log";
     }
-#else
-    // On Web platform setup a default windowed resolution similar to the executable samples
-    engineParameters_[EP_FULL_SCREEN]  = false;
-#endif
 
     // Construct a search path to find the resource prefix with two entries:
     // The first entry is an empty path which will be substituted with program/bin directory -- this entry is for binary when it is still in build tree
@@ -169,37 +150,8 @@ void Urho3DPlayer::Start()
     }
 
     String extension = GetExtension(scriptFileName_);
-    if (extension != ".lua" && extension != ".luc")
+    if (extension == ".lua" || extension == ".luc")
     {
-#ifdef URHO3D_ANGELSCRIPT
-        // Instantiate and register the AngelScript subsystem
-        context_->RegisterSubsystem(new Script(context_));
-
-        // Hold a shared pointer to the script file to make sure it is not unloaded during runtime
-        scriptFile_ = GetSubsystem<ResourceCache>()->GetResource<ScriptFile>(scriptFileName_);
-
-        /// \hack If we are running the editor, also instantiate Lua subsystem to enable editing Lua ScriptInstances
-#ifdef URHO3D_LUA
-        if (scriptFileName_.Contains("Editor.as", false))
-            context_->RegisterSubsystem(new LuaScript(context_));
-#endif
-        // If script loading is successful, proceed to main loop
-        if (scriptFile_ && scriptFile_->Execute("void Start()"))
-        {
-            // Subscribe to script's reload event to allow live-reload of the application
-            SubscribeToEvent(scriptFile_, E_RELOADSTARTED, URHO3D_HANDLER(Urho3DPlayer, HandleScriptReloadStarted));
-            SubscribeToEvent(scriptFile_, E_RELOADFINISHED, URHO3D_HANDLER(Urho3DPlayer, HandleScriptReloadFinished));
-            SubscribeToEvent(scriptFile_, E_RELOADFAILED, URHO3D_HANDLER(Urho3DPlayer, HandleScriptReloadFailed));
-            return;
-        }
-#else
-        ErrorExit("AngelScript is not enabled!");
-        return;
-#endif
-    }
-    else
-    {
-#ifdef URHO3D_LUA
         // Instantiate and register the Lua script subsystem
         auto* luaScript = new LuaScript(context_);
         context_->RegisterSubsystem(luaScript);
@@ -210,10 +162,6 @@ void Urho3DPlayer::Start()
             luaScript->ExecuteFunction("Start");
             return;
         }
-#else
-        ErrorExit("Lua is not enabled!");
-        return;
-#endif
     }
 
     // The script was not successfully loaded. Show the last error message and do not run the main loop
@@ -222,55 +170,9 @@ void Urho3DPlayer::Start()
 
 void Urho3DPlayer::Stop()
 {
-#ifdef URHO3D_ANGELSCRIPT
-    if (scriptFile_)
-    {
-        // Execute the optional stop function
-        if (scriptFile_->GetFunction("void Stop()"))
-            scriptFile_->Execute("void Stop()");
-    }
-#else
-    if (false)
-    {
-    }
-#endif
-
-#ifdef URHO3D_LUA
-    else
-    {
-        auto* luaScript = GetSubsystem<LuaScript>();
-        if (luaScript && luaScript->GetFunction("Stop", true))
-            luaScript->ExecuteFunction("Stop");
-    }
-#endif
-}
-
-void Urho3DPlayer::HandleScriptReloadStarted(StringHash eventType, VariantMap& eventData)
-{
-#ifdef URHO3D_ANGELSCRIPT
-    if (scriptFile_->GetFunction("void Stop()"))
-        scriptFile_->Execute("void Stop()");
-#endif
-}
-
-void Urho3DPlayer::HandleScriptReloadFinished(StringHash eventType, VariantMap& eventData)
-{
-#ifdef URHO3D_ANGELSCRIPT
-    // Restart the script application after reload
-    if (!scriptFile_->Execute("void Start()"))
-    {
-        scriptFile_.Reset();
-        ErrorExit();
-    }
-#endif
-}
-
-void Urho3DPlayer::HandleScriptReloadFailed(StringHash eventType, VariantMap& eventData)
-{
-#ifdef URHO3D_ANGELSCRIPT
-    scriptFile_.Reset();
-    ErrorExit();
-#endif
+    auto* luaScript = GetSubsystem<LuaScript>();
+    if (luaScript && luaScript->GetFunction("Stop", true))
+        luaScript->ExecuteFunction("Stop");
 }
 
 void Urho3DPlayer::GetScriptFileName()

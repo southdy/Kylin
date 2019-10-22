@@ -33,7 +33,6 @@
 #include "../Scene/Node.h"
 #include "../Scene/ReplicationState.h"
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

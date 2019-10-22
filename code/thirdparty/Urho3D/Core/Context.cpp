@@ -28,13 +28,10 @@
 
 #ifndef MINI_URHO
 #include <SDL.h>
-#ifdef URHO3D_IK
 #include <ik/log.h>
 #include <ik/memory.h>
 #endif
-#endif
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {
@@ -295,7 +292,6 @@ void Context::ReleaseSDL()
         URHO3D_LOGERROR("Too many calls to Context::ReleaseSDL()!");
 }
 
-#ifdef URHO3D_IK
 void Context::RequireIK()
 {
     // Always increment, the caller must match with ReleaseIK(), regardless of
@@ -326,7 +322,6 @@ void Context::ReleaseIK()
     if (ikInitCounter < 0)
         URHO3D_LOGERROR("Too many calls to Context::ReleaseIK()");
 }
-#endif // ifdef URHO3D_IK
 #endif // ifndef MINI_URHO
 
 void Context::CopyBaseAttributes(StringHash baseType, StringHash derivedType)

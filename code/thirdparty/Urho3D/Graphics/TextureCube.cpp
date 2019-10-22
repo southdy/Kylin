@@ -34,7 +34,6 @@
 #include "../Resource/ResourceCache.h"
 #include "../Resource/XMLFile.h"
 
-#include "../DebugNew.h"
 
 #ifdef _MSC_VER
 #pragma warning(disable:4355)

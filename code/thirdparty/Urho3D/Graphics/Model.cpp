@@ -35,7 +35,6 @@
 #include "../Resource/ResourceCache.h"
 #include "../Resource/XMLFile.h"
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

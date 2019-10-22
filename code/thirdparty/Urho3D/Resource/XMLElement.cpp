@@ -28,7 +28,6 @@
 
 #include <PugiXml/pugixml.hpp>
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

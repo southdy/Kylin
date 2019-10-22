@@ -30,7 +30,6 @@
 #include "../Resource/JSONValue.h"
 #include "../Scene/UnknownComponent.h"
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {

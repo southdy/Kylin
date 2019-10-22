@@ -30,7 +30,6 @@
 #include "../IO/FileSystem.h"
 #include "../IO/Log.h"
 
-#include "../DebugNew.h"
 
 namespace Urho3D
 {
