@@ -73,12 +73,8 @@ private:
     /// Server mode flag.
     bool isServer_;
     /// Pipe handle.
-#ifdef _WIN32
-    void* handle_;
-#else
     mutable int readHandle_;
     mutable int writeHandle_;
-#endif
 };
 
 }

@@ -27,15 +27,8 @@
 
 #include <ctime>
 
-#ifdef _WIN32
-#include <windows.h>
-#include <mmsystem.h>
-#elif __EMSCRIPTEN__
-#include <emscripten/emscripten.h>
-#else
 #include <sys/time.h>
 #include <unistd.h>
-#endif
 
 
 namespace Urho3D
@@ -50,55 +43,26 @@ Time::Time(Context* context) :
     timeStep_(0.0f),
     timerPeriod_(0)
 {
-#ifdef _WIN32
-    LARGE_INTEGER frequency;
-    if (QueryPerformanceFrequency(&frequency))
-    {
-        HiresTimer::frequency = frequency.QuadPart;
-        HiresTimer::supported = true;
-    }
-#else
     HiresTimer::frequency = 1000000;
     HiresTimer::supported = true;
-#endif
 }
 
 Time::~Time()
 {
-    SetTimerPeriod(0);
 }
 
 static unsigned Tick()
 {
-#ifdef _WIN32
-    return (unsigned)timeGetTime();
-#elif __EMSCRIPTEN__
-    return (unsigned)emscripten_get_now();
-#else
     struct timeval time{};
     gettimeofday(&time, nullptr);
     return (unsigned)(time.tv_sec * 1000 + time.tv_usec / 1000);
-#endif
 }
 
 static long long HiresTick()
 {
-#ifdef _WIN32
-    if (HiresTimer::IsSupported())
-    {
-        LARGE_INTEGER counter;
-        QueryPerformanceCounter(&counter);
-        return counter.QuadPart;
-    }
-    else
-        return timeGetTime();
-#elif __EMSCRIPTEN__
-    return (long long)(emscripten_get_now()*1000.0);
-#else
     struct timeval time{};
     gettimeofday(&time, nullptr);
     return time.tv_sec * 1000000LL + time.tv_usec;
-#endif
 }
 
 void Time::BeginFrame(float timeStep)
@@ -140,19 +104,6 @@ void Time::EndFrame()
         profiler->EndFrame();
 }
 
-void Time::SetTimerPeriod(unsigned mSec)
-{
-#ifdef _WIN32
-    if (timerPeriod_ > 0)
-        timeEndPeriod(timerPeriod_);
-
-    timerPeriod_ = mSec;
-
-    if (timerPeriod_ > 0)
-        timeBeginPeriod(timerPeriod_);
-#endif
-}
-
 float Time::GetElapsedTime()
 {
     return elapsedTime_.GetMSec(false) / 1000.0f;
@@ -178,12 +129,8 @@ String Time::GetTimeStamp()
 
 void Time::Sleep(unsigned mSec)
 {
-#ifdef _WIN32
-    ::Sleep(mSec);
-#else
     timespec time{static_cast<time_t>(mSec / 1000), static_cast<long>((mSec % 1000) * 1000000)};
     nanosleep(&time, nullptr);
-#endif
 }
 
 float Time::GetFramesPerSecond() const

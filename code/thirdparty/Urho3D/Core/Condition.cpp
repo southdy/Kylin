@@ -24,40 +24,10 @@
 
 #include "../Core/Condition.h"
 
-#ifdef _WIN32
-#include <windows.h>
-#else
 #include <pthread.h>
-#endif
 
 namespace Urho3D
 {
-
-#ifdef _WIN32
-
-Condition::Condition() :
-    event_(nullptr)
-{
-    event_ = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-}
-
-Condition::~Condition()
-{
-    CloseHandle((HANDLE)event_);
-    event_ = nullptr;
-}
-
-void Condition::Set()
-{
-    SetEvent((HANDLE)event_);
-}
-
-void Condition::Wait()
-{
-    WaitForSingleObject((HANDLE)event_, INFINITE);
-}
-
-#else
 
 Condition::Condition() :
     mutex_(new pthread_mutex_t),
@@ -94,7 +64,5 @@ void Condition::Wait()
     pthread_cond_wait(cond, mutex);
     pthread_mutex_unlock(mutex);
 }
-
-#endif
 
 }

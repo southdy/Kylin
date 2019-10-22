@@ -40,15 +40,6 @@
 namespace Urho3D
 {
 
-#ifdef _WIN32
-static const wchar_t* openMode[] =
-{
-    L"rb",
-    L"wb",
-    L"r+b",
-    L"w+b"
-};
-#else
 static const char* openMode[] =
 {
     "rb",
@@ -56,7 +47,6 @@ static const char* openMode[] =
     "r+b",
     "w+b"
 };
-#endif
 
 #ifdef __ANDROID__
 const char* APK = "/apk/";
@@ -476,20 +466,12 @@ bool File::OpenInternal(const String& fileName, FileMode mode, bool fromPackage)
     }
 #endif
 
-#ifdef _WIN32
-    handle_ = _wfopen(GetWideNativePath(fileName).CString(), openMode[mode]);
-#else
     handle_ = fopen(GetNativePath(fileName).CString(), openMode[mode]);
-#endif
 
     // If file did not exist in readwrite mode, retry with write-update mode
     if (mode == FILE_READWRITE && !handle_)
     {
-#ifdef _WIN32
-        handle_ = _wfopen(GetWideNativePath(fileName).CString(), openMode[mode + 1]);
-#else
         handle_ = fopen(GetNativePath(fileName).CString(), openMode[mode + 1]);
-#endif
     }
 
     if (!handle_)

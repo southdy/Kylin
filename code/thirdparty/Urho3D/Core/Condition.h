@@ -48,10 +48,8 @@ public:
     void Wait();
 
 private:
-#ifndef _WIN32
     /// Mutex for the event, necessary for pthreads-based implementation.
     void* mutex_;
-#endif
     /// Operating system specific event.
     void* event_;
 };

@@ -28,12 +28,8 @@
 #include <Urho3D/Urho3D.h>
 #endif
 
-#ifndef _WIN32
 #include <pthread.h>
 using ThreadID = pthread_t;
-#else
-using ThreadID = unsigned;
-#endif
 
 namespace Urho3D
 {

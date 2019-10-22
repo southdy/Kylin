@@ -169,9 +169,6 @@ bool Engine::Initialize(const VariantMap& parameters)
         log->Open(GetParameter(parameters, EP_LOG_NAME, "Urho3D.log").GetString());
     }
 
-    // Set maximally accurate low res timer
-    GetSubsystem<Time>()->SetTimerPeriod(1);
-
     // Configure max FPS
     if (GetParameter(parameters, EP_FRAME_LIMITER, true) == false)
         SetMaxFps(0);
