@@ -20,8 +20,6 @@
 // THE SOFTWARE.
 //
 
-#ifdef URHO3D_THREADING
-
 #include "../Precompiled.h"
 
 #include "../Core/Context.h"
@@ -306,5 +304,3 @@ void BackgroundLoader::FinishBackgroundLoading(BackgroundLoadItem& item)
 }
 
 }
-
-#endif
