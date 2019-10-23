@@ -186,69 +186,6 @@ bool ShaderProgram::Link()
         usedVertexAttributes_ |= (1u << location);
     }
 
-    // Check for constant buffers
-#ifndef GL_ES_VERSION_2_0
-    HashMap<unsigned, unsigned> blockToBinding;
-
-    if (Graphics::GetGL3Support())
-    {
-        int numUniformBlocks = 0;
-
-        glGetProgramiv(object_.name_, GL_ACTIVE_UNIFORM_BLOCKS, &numUniformBlocks);
-        for (int i = 0; i < numUniformBlocks; ++i)
-        {
-            glGetActiveUniformBlockName(object_.name_, (GLuint)i, MAX_NAME_LENGTH, &nameLength, nameBuffer);
-
-            String name(nameBuffer, (unsigned)nameLength);
-
-            unsigned blockIndex = glGetUniformBlockIndex(object_.name_, name.CString());
-            unsigned group = M_MAX_UNSIGNED;
-
-            // Try to recognize the use of the buffer from its name
-            for (unsigned j = 0; j < MAX_SHADER_PARAMETER_GROUPS; ++j)
-            {
-                if (name.Contains(shaderParameterGroups[j], false))
-                {
-                    group = j;
-                    break;
-                }
-            }
-
-            // If name is not recognized, search for a digit in the name and use that as the group index
-            if (group == M_MAX_UNSIGNED)
-                group = NumberPostfix(name);
-
-            if (group >= MAX_SHADER_PARAMETER_GROUPS)
-            {
-                URHO3D_LOGWARNING("Skipping unrecognized uniform block " + name + " in shader program " + vertexShader_->GetFullName() +
-                           " " + pixelShader_->GetFullName());
-                continue;
-            }
-
-            // Find total constant buffer data size
-            int dataSize;
-            glGetActiveUniformBlockiv(object_.name_, blockIndex, GL_UNIFORM_BLOCK_DATA_SIZE, &dataSize);
-            if (!dataSize)
-                continue;
-
-            unsigned bindingIndex = group;
-            // Vertex shader constant buffer bindings occupy slots starting from zero to maximum supported, pixel shader bindings
-            // from that point onward
-            ShaderType shaderType = VS;
-            if (name.Contains("PS", false))
-            {
-                bindingIndex += MAX_SHADER_PARAMETER_GROUPS;
-                shaderType = PS;
-            }
-
-            glUniformBlockBinding(object_.name_, blockIndex, bindingIndex);
-            blockToBinding[blockIndex] = bindingIndex;
-
-            constantBuffers_[bindingIndex] = graphics_->GetOrCreateConstantBuffer(shaderType, bindingIndex, (unsigned)dataSize);
-        }
-    }
-#endif
-
     // Check for shader parameters and texture units
     glGetProgramiv(object_.name_, GL_ACTIVE_UNIFORMS, &uniformCount);
     for (int i = 0; i < uniformCount; ++i)
@@ -274,22 +211,6 @@ bool ShaderProgram::Link()
             String paramName = name.Substring(1);
             ShaderParameter parameter{paramName, type, location};
             bool store = location >= 0;
-
-#ifndef GL_ES_VERSION_2_0
-            // If running OpenGL 3, the uniform may be inside a constant buffer
-            if (parameter.location_ < 0 && Graphics::GetGL3Support())
-            {
-                int blockIndex, blockOffset;
-                glGetActiveUniformsiv(object_.name_, 1, (const GLuint*)&i, GL_UNIFORM_BLOCK_INDEX, &blockIndex);
-                glGetActiveUniformsiv(object_.name_, 1, (const GLuint*)&i, GL_UNIFORM_OFFSET, &blockOffset);
-                if (blockIndex >= 0)
-                {
-                    parameter.offset_ = blockOffset;
-                    parameter.bufferPtr_ = constantBuffers_[blockToBinding[blockIndex]];
-                    store = true;
-                }
-            }
-#endif
 
             if (store)
                 shaderParameters_[StringHash(paramName)] = parameter;
@@ -351,25 +272,6 @@ bool ShaderProgram::NeedParameterUpdate(ShaderParameterGroup group, const void* 
     }
 
     // The shader program may use a mixture of constant buffers and individual uniforms even in the same group
-#ifndef GL_ES_VERSION_2_0
-    bool useBuffer = constantBuffers_[group].Get() || constantBuffers_[group + MAX_SHADER_PARAMETER_GROUPS].Get();
-    bool useIndividual = !constantBuffers_[group].Get() || !constantBuffers_[group + MAX_SHADER_PARAMETER_GROUPS].Get();
-    bool needUpdate = false;
-
-    if (useBuffer && globalParameterSources[group] != source)
-    {
-        globalParameterSources[group] = source;
-        needUpdate = true;
-    }
-
-    if (useIndividual && parameterSources_[group] != source)
-    {
-        parameterSources_[group] = source;
-        needUpdate = true;
-    }
-
-    return needUpdate;
-#else
     if (parameterSources_[group] != source)
     {
         parameterSources_[group] = source;
@@ -377,23 +279,12 @@ bool ShaderProgram::NeedParameterUpdate(ShaderParameterGroup group, const void* 
     }
     else
         return false;
-#endif
 }
 
 void ShaderProgram::ClearParameterSource(ShaderParameterGroup group)
 {
     // The shader program may use a mixture of constant buffers and individual uniforms even in the same group
-#ifndef GL_ES_VERSION_2_0
-    bool useBuffer = constantBuffers_[group].Get() || constantBuffers_[group + MAX_SHADER_PARAMETER_GROUPS].Get();
-    bool useIndividual = !constantBuffers_[group].Get() || !constantBuffers_[group + MAX_SHADER_PARAMETER_GROUPS].Get();
-
-    if (useBuffer)
-        globalParameterSources[group] = (const void*)M_MAX_UNSIGNED;
-    if (useIndividual)
-        parameterSources_[group] = (const void*)M_MAX_UNSIGNED;
-#else
     parameterSources_[group] = (const void*)M_MAX_UNSIGNED;
-#endif
 }
 
 void ShaderProgram::ClearParameterSources()
@@ -401,11 +292,6 @@ void ShaderProgram::ClearParameterSources()
     ++globalFrameNumber;
     if (!globalFrameNumber)
         ++globalFrameNumber;
-
-#ifndef GL_ES_VERSION_2_0
-    for (auto& globalParameterSource : globalParameterSources)
-        globalParameterSource = (const void*)M_MAX_UNSIGNED;
-#endif
 }
 
 void ShaderProgram::ClearGlobalParameterSource(ShaderParameterGroup group)

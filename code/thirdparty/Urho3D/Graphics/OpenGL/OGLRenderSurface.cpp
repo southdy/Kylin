@@ -30,13 +30,11 @@
 #include "../../Graphics/Texture.h"
 
 
-#ifdef GL_ES_VERSION_2_0
 #define GL_RENDERBUFFER_EXT GL_RENDERBUFFER
 #define glGenRenderbuffersEXT glGenRenderbuffers
 #define glBindRenderbufferEXT glBindRenderbuffer
 #define glRenderbufferStorageEXT glRenderbufferStorage
 #define glDeleteRenderbuffersEXT glDeleteRenderbuffers
-#endif
 
 namespace Urho3D
 {
@@ -56,30 +54,10 @@ bool RenderSurface::CreateRenderBuffer(unsigned width, unsigned height, unsigned
 
     Release();
 
-#ifndef GL_ES_VERSION_2_0
-    if (Graphics::GetGL3Support())
-    {
-        glGenRenderbuffers(1, &renderBuffer_);
-        glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer_);
-        if (multiSample > 1)
-            glRenderbufferStorageMultisample(GL_RENDERBUFFER, multiSample, format, width, height);
-        else
-            glRenderbufferStorage(GL_RENDERBUFFER, format, width, height);
-        glBindRenderbuffer(GL_RENDERBUFFER, 0);
-    }
-    else
-#endif
-    {
-        glGenRenderbuffersEXT(1, &renderBuffer_);
-        glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, renderBuffer_);
-#ifndef GL_ES_VERSION_2_0
-        if (multiSample > 1)
-            glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, multiSample, format, width, height);
-        else
-#endif
-            glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, format, width, height);
-        glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
-    }
+    glGenRenderbuffersEXT(1, &renderBuffer_);
+    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, renderBuffer_);
+    glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, format, width, height);
+    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
     return true;
 }

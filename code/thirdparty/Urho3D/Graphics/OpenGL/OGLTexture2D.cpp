@@ -307,44 +307,6 @@ bool Texture2D::GetData(unsigned level, void* dest) const
         return false;
     }
 
-#ifndef GL_ES_VERSION_2_0
-    if (!dest)
-    {
-        URHO3D_LOGERROR("Null destination for getting data");
-        return false;
-    }
-
-    if (level >= levels_)
-    {
-        URHO3D_LOGERROR("Illegal mip level for getting data");
-        return false;
-    }
-
-    if (graphics_->IsDeviceLost())
-    {
-        URHO3D_LOGWARNING("Getting texture data while device is lost");
-        return false;
-    }
-
-    if (multiSample_ > 1 && !autoResolve_)
-    {
-        URHO3D_LOGERROR("Can not get data from multisampled texture without autoresolve");
-        return false;
-    }
-
-    if (resolveDirty_)
-        graphics_->ResolveToTexture(const_cast<Texture2D*>(this));
-
-    graphics_->SetTextureForUpdate(const_cast<Texture2D*>(this));
-
-    if (!IsCompressed())
-        glGetTexImage(target_, level, GetExternalFormat(format_), GetDataType(format_), dest);
-    else
-        glGetCompressedTexImage(target_, level, dest);
-
-    graphics_->SetTexture(0, nullptr);
-    return true;
-#else
     // Special case on GLES: if the texture is a rendertarget, can make it current and use glReadPixels()
     if (usage_ == TEXTURE_RENDERTARGET)
     {
@@ -357,7 +319,6 @@ bool Texture2D::GetData(unsigned level, void* dest) const
 
     URHO3D_LOGERROR("Getting texture data not supported");
     return false;
-#endif
 }
 
 bool Texture2D::Create()
@@ -373,14 +334,12 @@ bool Texture2D::Create()
         return true;
     }
 
-#ifdef GL_ES_VERSION_2_0
     if (multiSample_ > 1)
     {
         URHO3D_LOGWARNING("Multisampled texture is not supported on OpenGL ES");
         multiSample_ = 1;
         autoResolve_ = false;
     }
-#endif
 
     unsigned format = GetSRGB() ? GetSRGBFormat(format_) : format_;
     unsigned externalFormat = GetExternalFormat(format_);
@@ -388,12 +347,8 @@ bool Texture2D::Create()
 
     // Create a renderbuffer instead of a texture if depth texture is not properly supported, or if this will be a packed
     // depth stencil texture
-#ifndef GL_ES_VERSION_2_0
-    if (format == Graphics::GetDepthStencilFormat())
-#else
     if (format == GL_DEPTH_COMPONENT16 || format == GL_DEPTH_COMPONENT24_OES || format == GL_DEPTH24_STENCIL8_OES ||
         (format == GL_DEPTH_COMPONENT && !graphics_->GetShadowMapFormat()))
-#endif
     {
         if (renderSurface_)
         {
@@ -412,21 +367,6 @@ bool Texture2D::Create()
                 // Multisample with autoresolve: create a renderbuffer for rendering, but also a texture
                 renderSurface_->CreateRenderBuffer(width_, height_, format, multiSample_);
             }
-            else
-            {
-                // Multisample without autoresolve: create a texture only
-#ifndef GL_ES_VERSION_2_0
-                if (!Graphics::GetGL3Support() && !GLEW_ARB_texture_multisample)
-                {
-                    URHO3D_LOGERROR("Multisampled texture extension not available");
-                    return false;
-                }
-
-                target_ = GL_TEXTURE_2D_MULTISAMPLE;
-                if (renderSurface_)
-                    renderSurface_->target_ = GL_TEXTURE_2D_MULTISAMPLE;
-#endif
-            }
         }
     }
 
@@ -441,16 +381,7 @@ bool Texture2D::Create()
     if (!IsCompressed())
     {
         glGetError();
-#ifndef GL_ES_VERSION_2_0
-        if (multiSample_ > 1 && !autoResolve_)
-        {
-            glTexImage2DMultisample(target_, multiSample_, format, width_, height_, GL_TRUE);
-        }
-        else
-#endif
-        {
-            glTexImage2D(target_, 0, format, width_, height_, 0, externalFormat, dataType, nullptr);
-        }
+        glTexImage2D(target_, 0, format, width_, height_, 0, externalFormat, dataType, nullptr);
         if (glGetError())
         {
             URHO3D_LOGERROR("Failed to create texture");
@@ -478,10 +409,6 @@ bool Texture2D::Create()
     }
 
     levels_ = CheckMaxLevels(width_, height_, requestedLevels_);
-#ifndef GL_ES_VERSION_2_0
-    glTexParameteri(target_, GL_TEXTURE_BASE_LEVEL, 0);
-    glTexParameteri(target_, GL_TEXTURE_MAX_LEVEL, levels_ - 1);
-#endif
 
     // Set initial parameters, then unbind the texture
     UpdateParameters();

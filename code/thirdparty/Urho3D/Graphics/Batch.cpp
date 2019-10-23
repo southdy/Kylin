@@ -498,9 +498,7 @@ void Batch::Prepare(View* view, Camera* camera, bool setModelTransform, bool all
                     }
 
                     normalOffsetScale *= light->GetShadowBias().normalOffset_;
-#ifdef GL_ES_VERSION_2_0
                     normalOffsetScale *= renderer->GetMobileNormalOffsetMul();
-#endif
                     graphics->SetShaderParameter(VSP_NORMALOFFSETSCALE, normalOffsetScale);
                     graphics->SetShaderParameter(PSP_NORMALOFFSETSCALE, normalOffsetScale);
                 }
@@ -559,14 +557,9 @@ void Batch::Prepare(View* view, Camera* camera, bool setModelTransform, bool all
     }
 
     // Set zone texture if necessary
-#ifndef GL_ES_VERSION_2_0
-    if (zone_ && graphics->HasTextureUnit(TU_ZONE))
-        graphics->SetTexture(TU_ZONE, zone_->GetZoneTexture());
-#else
     // On OpenGL ES set the zone texture to the environment unit instead
     if (zone_ && zone_->GetZoneTexture() && graphics->HasTextureUnit(TU_ENVIRONMENT))
         graphics->SetTexture(TU_ENVIRONMENT, zone_->GetZoneTexture());
-#endif
 
     // Set material-specific shader parameters and textures
     if (material_)
@@ -758,60 +751,7 @@ void BatchQueue::SortFrontToBack2Pass(PODVector<Batch*>& batches)
 {
     // Mobile devices likely use a tiled deferred approach, with which front-to-back sorting is irrelevant. The 2-pass
     // method is also time consuming, so just sort with state having priority
-#ifdef GL_ES_VERSION_2_0
     Sort(batches.Begin(), batches.End(), CompareBatchesState);
-#else
-    // For desktop, first sort by distance and remap shader/material/geometry IDs in the sort key
-    Sort(batches.Begin(), batches.End(), CompareBatchesFrontToBack);
-
-    unsigned freeShaderID = 0;
-    unsigned short freeMaterialID = 0;
-    unsigned short freeGeometryID = 0;
-
-    for (PODVector<Batch*>::Iterator i = batches.Begin(); i != batches.End(); ++i)
-    {
-        Batch* batch = *i;
-
-        auto shaderID = (unsigned)(batch->sortKey_ >> 32u);
-        HashMap<unsigned, unsigned>::ConstIterator j = shaderRemapping_.Find(shaderID);
-        if (j != shaderRemapping_.End())
-            shaderID = j->second_;
-        else
-        {
-            shaderID = shaderRemapping_[shaderID] = freeShaderID | (shaderID & 0x80000000);
-            ++freeShaderID;
-        }
-
-        auto materialID = (unsigned short)((batch->sortKey_ & 0xffff0000) >> 16u);
-        HashMap<unsigned short, unsigned short>::ConstIterator k = materialRemapping_.Find(materialID);
-        if (k != materialRemapping_.End())
-            materialID = k->second_;
-        else
-        {
-            materialID = materialRemapping_[materialID] = freeMaterialID;
-            ++freeMaterialID;
-        }
-
-        auto geometryID = (unsigned short)(batch->sortKey_ & 0xffffu);
-        HashMap<unsigned short, unsigned short>::ConstIterator l = geometryRemapping_.Find(geometryID);
-        if (l != geometryRemapping_.End())
-            geometryID = l->second_;
-        else
-        {
-            geometryID = geometryRemapping_[geometryID] = freeGeometryID;
-            ++freeGeometryID;
-        }
-
-        batch->sortKey_ = (((unsigned long long)shaderID) << 32u) | (((unsigned long long)materialID) << 16u) | geometryID;
-    }
-
-    shaderRemapping_.Clear();
-    materialRemapping_.Clear();
-    geometryRemapping_.Clear();
-
-    // Finally sort again with the rewritten ID's
-    Sort(batches.Begin(), batches.End(), CompareBatchesState);
-#endif
 }
 
 void BatchQueue::SetInstancingData(void* lockedData, unsigned stride, unsigned& freeIndex)

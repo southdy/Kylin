@@ -373,44 +373,6 @@ bool TextureCube::GetData(CubeMapFace face, unsigned level, void* dest) const
         return false;
     }
 
-#ifndef GL_ES_VERSION_2_0
-    if (!dest)
-    {
-        URHO3D_LOGERROR("Null destination for getting data");
-        return false;
-    }
-
-    if (level >= levels_)
-    {
-        URHO3D_LOGERROR("Illegal mip level for getting data");
-        return false;
-    }
-
-    if (graphics_->IsDeviceLost())
-    {
-        URHO3D_LOGWARNING("Getting texture data while device is lost");
-        return false;
-    }
-
-    if (multiSample_ > 1 && !autoResolve_)
-    {
-        URHO3D_LOGERROR("Can not get data from multisampled texture without autoresolve");
-        return false;
-    }
-
-    if (resolveDirty_)
-        graphics_->ResolveToTexture(const_cast<TextureCube*>(this));
-
-    graphics_->SetTextureForUpdate(const_cast<TextureCube*>(this));
-
-    if (!IsCompressed())
-        glGetTexImage((GLenum)(GL_TEXTURE_CUBE_MAP_POSITIVE_X + face), level, GetExternalFormat(format_), GetDataType(format_), dest);
-    else
-        glGetCompressedTexImage((GLenum)(GL_TEXTURE_CUBE_MAP_POSITIVE_X + face), level, dest);
-
-    graphics_->SetTexture(0, nullptr);
-    return true;
-#else
     // Special case on GLES: if the texture is a rendertarget, can make it current and use glReadPixels()
     if (usage_ == TEXTURE_RENDERTARGET)
     {
@@ -423,7 +385,6 @@ bool TextureCube::GetData(CubeMapFace face, unsigned level, void* dest) const
 
     URHO3D_LOGERROR("Getting texture data not supported");
     return false;
-#endif
 }
 
 bool TextureCube::Create()
@@ -439,14 +400,12 @@ bool TextureCube::Create()
         return true;
     }
 
-#ifdef GL_ES_VERSION_2_0
     if (multiSample_ > 1)
     {
         URHO3D_LOGWARNING("Multisampled texture is not supported on OpenGL ES");
         multiSample_ = 1;
         autoResolve_ = false;
     }
-#endif
 
     glGenTextures(1, &object_.name_);
 
@@ -499,10 +458,6 @@ bool TextureCube::Create()
     }
 
     levels_ = CheckMaxLevels(width_, height_, requestedLevels_);
-#ifndef GL_ES_VERSION_2_0
-    glTexParameteri(target_, GL_TEXTURE_BASE_LEVEL, 0);
-    glTexParameteri(target_, GL_TEXTURE_MAX_LEVEL, levels_ - 1);
-#endif
 
     // Set initial parameters, then unbind the texture
     UpdateParameters();

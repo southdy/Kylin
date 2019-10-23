@@ -953,11 +953,6 @@ Texture2D* Renderer::GetShadowMap(Light* light, Camera* camera, unsigned viewWid
         }
         else
         {
-#ifndef GL_ES_VERSION_2_0
-            // OpenGL (desktop) and D3D11: shadow compare mode needs to be specifically enabled for the shadow map
-            newShadowMap->SetFilterMode(FILTER_BILINEAR);
-            newShadowMap->SetShadowCompare(shadowMapUsage == TEXTURE_DEPTHSTENCIL);
-#endif
             // Create dummy color texture for the shadow map if necessary: Direct3D9, or OpenGL when working around an OS X +
             // Intel driver bug
             if (shadowMapUsage == TEXTURE_DEPTHSTENCIL && dummyColorFormat)
