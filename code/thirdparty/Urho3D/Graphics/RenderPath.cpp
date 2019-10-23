@@ -29,10 +29,6 @@
 #include "../Resource/XMLFile.h"
 
 
-#ifdef _MSC_VER
-#pragma warning(disable:6293)
-#endif
-
 namespace Urho3D
 {
 
