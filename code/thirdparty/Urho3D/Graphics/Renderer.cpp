@@ -958,11 +958,6 @@ Texture2D* Renderer::GetShadowMap(Light* light, Camera* camera, unsigned viewWid
             newShadowMap->SetFilterMode(FILTER_BILINEAR);
             newShadowMap->SetShadowCompare(shadowMapUsage == TEXTURE_DEPTHSTENCIL);
 #endif
-#ifndef URHO3D_OPENGL
-            // Direct3D9: when shadow compare must be done manually, use nearest filtering so that the filtering of point lights
-            // and other shadowed lights matches
-            newShadowMap->SetFilterMode(graphics_->GetHardwareShadowSupport() ? FILTER_BILINEAR : FILTER_NEAREST);
-#endif
             // Create dummy color texture for the shadow map if necessary: Direct3D9, or OpenGL when working around an OS X +
             // Intel driver bug
             if (shadowMapUsage == TEXTURE_DEPTHSTENCIL && dummyColorFormat)
@@ -1044,7 +1039,6 @@ Texture* Renderer::GetScreenBuffer(int width, int height, unsigned format, int m
             newTex2D->SetNumLevels(1);
             newTex2D->SetSize(width, height, format, depthStencil ? TEXTURE_DEPTHSTENCIL : TEXTURE_RENDERTARGET, multiSample, autoResolve);
 
-#ifdef URHO3D_OPENGL
             // OpenGL hack: clear persistent floating point screen buffers to ensure the initial contents aren't illegal (NaN)?
             // Otherwise eg. the AutoExposure post process will not work correctly
             if (persistentKey && Texture::GetDataType(format) == GL_FLOAT)
@@ -1056,7 +1050,6 @@ Texture* Renderer::GetScreenBuffer(int width, int height, unsigned format, int m
                 graphics_->SetViewport(IntRect(0, 0, width, height));
                 graphics_->Clear(CLEAR_COLOR);
             }
-#endif
 
             newBuffer = newTex2D;
         }
@@ -1808,26 +1801,6 @@ void Renderer::CreateGeometries()
     pointLightGeometry_->SetVertexBuffer(0, plvb);
     pointLightGeometry_->SetIndexBuffer(plib);
     pointLightGeometry_->SetDrawRange(TRIANGLE_LIST, 0, plib->GetIndexCount());
-
-#if !defined(URHO3D_OPENGL) || !defined(GL_ES_VERSION_2_0)
-    if (graphics_->GetShadowMapFormat())
-    {
-        faceSelectCubeMap_ = new TextureCube(context_);
-        faceSelectCubeMap_->SetNumLevels(1);
-        faceSelectCubeMap_->SetSize(1, graphics_->GetRGBAFormat());
-        faceSelectCubeMap_->SetFilterMode(FILTER_NEAREST);
-
-        indirectionCubeMap_ = new TextureCube(context_);
-        indirectionCubeMap_->SetNumLevels(1);
-        indirectionCubeMap_->SetSize(256, graphics_->GetRGBAFormat());
-        indirectionCubeMap_->SetFilterMode(FILTER_BILINEAR);
-        indirectionCubeMap_->SetAddressMode(COORD_U, ADDRESS_CLAMP);
-        indirectionCubeMap_->SetAddressMode(COORD_V, ADDRESS_CLAMP);
-        indirectionCubeMap_->SetAddressMode(COORD_W, ADDRESS_CLAMP);
-
-        SetIndirectionTextureData();
-    }
-#endif
 }
 
 void Renderer::SetIndirectionTextureData()
@@ -1853,17 +1826,10 @@ void Renderer::SetIndirectionTextureData()
         {
             for (unsigned x = 0; x < 256; ++x)
             {
-#ifdef URHO3D_OPENGL
                 dest[0] = (unsigned char)x;
                 dest[1] = (unsigned char)(255 - y);
                 dest[2] = faceX;
                 dest[3] = (unsigned char)(255 * 2 / 3 - faceY);
-#else
-                dest[0] = (unsigned char)x;
-                dest[1] = (unsigned char)y;
-                dest[2] = faceX;
-                dest[3] = faceY;
-#endif
                 dest += 4;
             }
         }
@@ -1913,25 +1879,11 @@ String Renderer::GetShadowVariations() const
     switch (shadowQuality_)
     {
         case SHADOWQUALITY_SIMPLE_16BIT:
-        #ifdef URHO3D_OPENGL
             return "SIMPLE_SHADOW ";
-        #else
-            if (graphics_->GetHardwareShadowSupport())
-                return "SIMPLE_SHADOW ";
-            else
-                return "SIMPLE_SHADOW SHADOWCMP ";
-        #endif
         case SHADOWQUALITY_SIMPLE_24BIT:
             return "SIMPLE_SHADOW ";
         case SHADOWQUALITY_PCF_16BIT:
-        #ifdef URHO3D_OPENGL
             return "PCF_SHADOW ";
-        #else
-            if (graphics_->GetHardwareShadowSupport())
-                return "PCF_SHADOW ";
-            else
-                return "PCF_SHADOW SHADOWCMP ";
-        #endif
         case SHADOWQUALITY_PCF_24BIT:
             return "PCF_SHADOW ";
         case SHADOWQUALITY_VSM:
