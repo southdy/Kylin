@@ -264,33 +264,6 @@ bool Graphics::SetMode(int width, int height, bool fullscreen, bool borderless, 
         }
     }
 
-    // Check fullscreen mode validity (desktop only). Use a closest match if not found
-#ifdef DESKTOP_GRAPHICS
-    if (fullscreen)
-    {
-        PODVector<IntVector3> resolutions = GetResolutions(monitor);
-        if (resolutions.Size())
-        {
-            unsigned best = 0;
-            unsigned bestError = M_MAX_UNSIGNED;
-
-            for (unsigned i = 0; i < resolutions.Size(); ++i)
-            {
-                unsigned error = Abs(resolutions[i].x_ - width) + Abs(resolutions[i].y_ - height);
-                if (error < bestError)
-                {
-                    best = i;
-                    bestError = error;
-                }
-            }
-
-            width = resolutions[best].x_;
-            height = resolutions[best].y_;
-            refreshRate = resolutions[best].z_;
-        }
-    }
-#endif
-
     // With an external window, only the size can change after initial setup, so do not recreate context
     if (!externalWindow_ || !impl_->context_)
     {

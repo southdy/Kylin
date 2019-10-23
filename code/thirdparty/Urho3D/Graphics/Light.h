@@ -46,11 +46,7 @@ enum LightType
 static const float SHADOW_MIN_QUANTIZE = 0.1f;
 static const float SHADOW_MIN_VIEW = 1.0f;
 static const int MAX_LIGHT_SPLITS = 6;
-#ifdef DESKTOP_GRAPHICS
-static const unsigned MAX_CASCADE_SPLITS = 4;
-#else
 static const unsigned MAX_CASCADE_SPLITS = 1;
-#endif
 
 /// Depth bias parameters. Used both by lights (for shadow mapping) and materials.
 struct URHO3D_API BiasParameters

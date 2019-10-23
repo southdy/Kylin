@@ -1747,11 +1747,7 @@ bool View::SetTextures(RenderPathCommand& command)
             continue;
         }
 
-#ifdef DESKTOP_GRAPHICS
-        Texture* texture = FindNamedTexture(command.textureNames_[i], false, i == TU_VOLUMEMAP);
-#else
         Texture* texture = FindNamedTexture(command.textureNames_[i], false, false);
-#endif
 
         if (texture)
         {
@@ -3125,18 +3121,7 @@ Texture* View::FindNamedTexture(const String& name, bool isRenderTarget, bool is
         if (GetExtension(name) == ".xml")
         {
             // Assume 3D textures are only bound to the volume map unit, otherwise it's a cube texture
-#ifdef DESKTOP_GRAPHICS
-            StringHash type = ParseTextureTypeXml(cache, name);
-            if (!type && isVolumeMap)
-                type = Texture3D::GetTypeStatic();
-
-            if (type == Texture3D::GetTypeStatic())
-                return cache->GetResource<Texture3D>(name);
-            else if (type == Texture2DArray::GetTypeStatic())
-                return cache->GetResource<Texture2DArray>(name);
-            else
-#endif
-                return cache->GetResource<TextureCube>(name);
+            return cache->GetResource<TextureCube>(name);
         }
         else
             return cache->GetResource<Texture2D>(name);

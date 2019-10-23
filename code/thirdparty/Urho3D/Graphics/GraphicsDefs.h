@@ -33,13 +33,6 @@ namespace Urho3D
 
 class Vector3;
 
-/// Graphics capability support level. Web platform (Emscripten) also uses OpenGL ES, but is considered a desktop platform capability-wise
-#if defined(IOS) || defined(TVOS) || defined(__ANDROID__) || defined(__arm__) || defined(__aarch64__)
-#define MOBILE_GRAPHICS
-#else
-#define DESKTOP_GRAPHICS
-#endif
-
 /// Primitive type.
 enum PrimitiveType
 {
@@ -326,27 +319,11 @@ enum TextureUnit
     TU_SPECULAR = 2,
     TU_EMISSIVE = 3,
     TU_ENVIRONMENT = 4,
-#ifdef DESKTOP_GRAPHICS
-    TU_VOLUMEMAP = 5,
-    TU_CUSTOM1 = 6,
-    TU_CUSTOM2 = 7,
-    TU_LIGHTRAMP = 8,
-    TU_LIGHTSHAPE = 9,
-    TU_SHADOWMAP = 10,
-    TU_FACESELECT = 11,
-    TU_INDIRECTION = 12,
-    TU_DEPTHBUFFER = 13,
-    TU_LIGHTBUFFER = 14,
-    TU_ZONE = 15,
-    MAX_MATERIAL_TEXTURE_UNITS = 8,
-    MAX_TEXTURE_UNITS = 16
-#else
     TU_LIGHTRAMP = 5,
     TU_LIGHTSHAPE = 6,
     TU_SHADOWMAP = 7,
     MAX_MATERIAL_TEXTURE_UNITS = 5,
     MAX_TEXTURE_UNITS = 8
-#endif
 };
 
 /// Billboard camera facing modes.
