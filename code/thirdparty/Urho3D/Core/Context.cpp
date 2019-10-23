@@ -26,17 +26,14 @@
 #include "../Core/EventProfiler.h"
 #include "../IO/Log.h"
 
-#ifndef MINI_URHO
 #include <SDL.h>
 #include <ik/log.h>
 #include <ik/memory.h>
-#endif
 
 
 namespace Urho3D
 {
 
-#ifndef MINI_URHO
 // Keeps track of how many times SDL was initialised so we know when to call SDL_Quit().
 static int sdlInitCounter = 0;
 
@@ -48,7 +45,6 @@ static void HandleIKLog(const char* msg)
 {
     URHO3D_LOGINFOF("[IK] %s", msg);
 }
-#endif
 
 
 void EventReceiverGroup::BeginSendEvent()
@@ -246,7 +242,6 @@ VariantMap& Context::GetEventDataMap()
     return ret;
 }
 
-#ifndef MINI_URHO
 bool Context::RequireSDL(unsigned int sdlFlags)
 {
     // Always increment, the caller must match with ReleaseSDL(), regardless of
@@ -322,7 +317,6 @@ void Context::ReleaseIK()
     if (ikInitCounter < 0)
         URHO3D_LOGERROR("Too many calls to Context::ReleaseIK()");
 }
-#endif // ifndef MINI_URHO
 
 void Context::CopyBaseAttributes(StringHash baseType, StringHash derivedType)
 {

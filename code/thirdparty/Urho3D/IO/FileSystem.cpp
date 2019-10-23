@@ -36,9 +36,7 @@
 #include <SDL_rwops.h>
 #endif
 
-#ifndef MINI_URHO
 #include <SDL_filesystem.h>
-#endif
 
 #include <sys/stat.h>
 #include <cstdio>
@@ -617,7 +615,6 @@ String FileSystem::GetUserDocumentsDir() const
 String FileSystem::GetAppPreferencesDir(const String& org, const String& app) const
 {
     String dir;
-#ifndef MINI_URHO
     char* prefPath = SDL_GetPrefPath(org.CString(), app.CString());
     if (prefPath)
     {
@@ -625,7 +622,6 @@ String FileSystem::GetAppPreferencesDir(const String& org, const String& app) co
         SDL_free(prefPath);
     }
     else
-#endif
         URHO3D_LOGWARNING("Could not get application preferences directory");
 
     return dir;
