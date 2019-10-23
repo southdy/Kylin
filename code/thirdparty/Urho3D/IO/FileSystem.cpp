@@ -75,12 +75,9 @@ int DoSystemCommand(const String& commandLine, bool redirectToLog, Context* cont
 #if defined(TVOS) || defined(IOS)
     return -1;
 #else
-#if !defined(__EMSCRIPTEN__) && !defined(MINI_URHO)
     if (!redirectToLog)
-#endif
         return system(commandLine.CString());
 
-#if !defined(__EMSCRIPTEN__) && !defined(MINI_URHO)
     // Get a platform-agnostic temporary file name for stderr redirection
     String stderrFilename;
     String adjustedCommandLine(commandLine);
@@ -119,7 +116,6 @@ int DoSystemCommand(const String& commandLine, bool redirectToLog, Context* cont
     }
 
     return exitCode;
-#endif
 #endif
 }
 

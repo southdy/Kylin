@@ -2587,37 +2587,6 @@ static int tolua_EngineLuaAPI_Engine_DumpResources00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: DumpMemory of class  Engine */
-#ifndef TOLUA_DISABLE_tolua_EngineLuaAPI_Engine_DumpMemory00
-static int tolua_EngineLuaAPI_Engine_DumpMemory00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
- !tolua_isusertype(tolua_S,1,"Engine",0,&tolua_err) ||
- !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
- goto tolua_lerror;
- else
-#endif
- {
-  Engine* self = (Engine*)  tolua_tousertype(tolua_S,1,0);
-#ifndef TOLUA_RELEASE
- if (!self) tolua_error(tolua_S,"invalid 'self' in function 'DumpMemory'", NULL);
-#endif
- {
-  self->DumpMemory();
- }
- }
- return 0;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'DumpMemory'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
 /* method: GetMinFps of class  Engine */
 #ifndef TOLUA_DISABLE_tolua_EngineLuaAPI_Engine_GetMinFps00
 static int tolua_EngineLuaAPI_Engine_GetMinFps00(lua_State* tolua_S)
@@ -3271,7 +3240,6 @@ TOLUA_API int tolua_EngineLuaAPI_open (lua_State* tolua_S)
   tolua_function(tolua_S,"Exit",tolua_EngineLuaAPI_Engine_Exit00);
   tolua_function(tolua_S,"DumpProfiler",tolua_EngineLuaAPI_Engine_DumpProfiler00);
   tolua_function(tolua_S,"DumpResources",tolua_EngineLuaAPI_Engine_DumpResources00);
-  tolua_function(tolua_S,"DumpMemory",tolua_EngineLuaAPI_Engine_DumpMemory00);
   tolua_function(tolua_S,"GetMinFps",tolua_EngineLuaAPI_Engine_GetMinFps00);
   tolua_function(tolua_S,"GetMaxFps",tolua_EngineLuaAPI_Engine_GetMaxFps00);
   tolua_function(tolua_S,"GetMaxInactiveFps",tolua_EngineLuaAPI_Engine_GetMaxInactiveFps00);

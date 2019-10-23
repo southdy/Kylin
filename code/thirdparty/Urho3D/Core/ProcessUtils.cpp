@@ -63,10 +63,6 @@ extern "C" unsigned SDL_TVOS_GetActiveProcessorCount();
 #include <unistd.h>
 #endif
 
-#if defined(__EMSCRIPTEN__) && defined(__EMSCRIPTEN_PTHREADS__)
-#include <emscripten/threading.h>
-#endif
-
 #if defined(__i386__)
 // From http://stereopsis.com/FPU.html
 
@@ -586,22 +582,6 @@ String GetHostName()
 #endif
     return "(?)";
 }
-
-// Disable Windows OS version functionality when compiling mini version for Web, see https://github.com/urho3d/Urho3D/issues/1998
-#if defined(_WIN32) && defined(HAVE_RTL_OSVERSIONINFOW) && !defined(MINI_URHO)
-using RtlGetVersionPtr = NTSTATUS (WINAPI *)(PRTL_OSVERSIONINFOW);
-
-static void GetOS(RTL_OSVERSIONINFOW *r)
-{
-    HMODULE m = GetModuleHandle("ntdll.dll");
-    if (m)
-    {
-        RtlGetVersionPtr fPtr = (RtlGetVersionPtr) GetProcAddress(m, "RtlGetVersion");
-        if (r && fPtr && fPtr(r) == 0)
-            r->dwOSVersionInfoSize = sizeof *r;
-    }
-}
-#endif
 
 String GetOSVersion()
 {

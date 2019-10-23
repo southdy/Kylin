@@ -44,9 +44,6 @@
 #include "../Graphics/Technique.h"
 #include "../Graphics/Terrain.h"
 #include "../Graphics/TerrainPatch.h"
-#ifdef _WIN32
-#include "../Graphics/Texture2D.h"
-#endif
 #include "../Graphics/Texture2DArray.h"
 #include "../Graphics/Texture3D.h"
 #include "../Graphics/TextureCube.h"
@@ -179,8 +176,6 @@ IntVector2 Graphics::GetWindowPosition() const
 PODVector<IntVector3> Graphics::GetResolutions(int monitor) const
 {
     PODVector<IntVector3> ret;
-    // Emscripten is not able to return a valid list
-#ifndef __EMSCRIPTEN__
     auto numModes = (unsigned)SDL_GetNumDisplayModes(monitor);
 
     for (unsigned i = 0; i < numModes; ++i)
@@ -205,21 +200,14 @@ PODVector<IntVector3> Graphics::GetResolutions(int monitor) const
         if (unique)
             ret.Push(IntVector3(width, height, rate));
     }
-#endif
 
     return ret;
 }
 
 IntVector2 Graphics::GetDesktopResolution(int monitor) const
 {
-#if !defined(__ANDROID__) && !defined(IOS) && !defined(TVOS)
-    SDL_DisplayMode mode;
-    SDL_GetDesktopDisplayMode(monitor, &mode);
-    return IntVector2(mode.w, mode.h);
-#else
     // SDL_GetDesktopDisplayMode() may not work correctly on mobile platforms. Rather return the window size
     return IntVector2(width_, height_);
-#endif
 }
 
 int Graphics::GetMonitorCount() const

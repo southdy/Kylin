@@ -2065,7 +2065,7 @@ unsigned Graphics::GetFormat(CompressedFormat format) const
     case CF_DXT1:
         return dxtTextureSupport_ ? GL_COMPRESSED_RGBA_S3TC_DXT1_EXT : 0;
 
-#if !defined(GL_ES_VERSION_2_0) || defined(__EMSCRIPTEN__)
+#if !defined(GL_ES_VERSION_2_0)
     case CF_DXT3:
         return dxtTextureSupport_ ? GL_COMPRESSED_RGBA_S3TC_DXT3_EXT : 0;
 
