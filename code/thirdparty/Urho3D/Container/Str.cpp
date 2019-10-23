@@ -752,16 +752,6 @@ void String::SetUTF8FromWChar(const wchar_t* str)
     if (!str)
         return;
 
-#ifdef _WIN32
-    while (*str)
-    {
-        unsigned unicodeChar = DecodeUTF16(str);
-        char* dest = temp;
-        EncodeUTF8(dest, unicodeChar);
-        *dest = 0;
-        Append(temp);
-    }
-#else
     while (*str)
     {
         char* dest = temp;
@@ -769,7 +759,6 @@ void String::SetUTF8FromWChar(const wchar_t* str)
         *dest = 0;
         Append(temp);
     }
-#endif
 }
 
 unsigned String::LengthUTF8() const
@@ -991,50 +980,6 @@ unsigned String::DecodeUTF8(const char*& src)
     }
 }
 
-#ifdef _WIN32
-void String::EncodeUTF16(wchar_t*& dest, unsigned unicodeChar)
-{
-    if (unicodeChar < 0x10000)
-        *dest++ = unicodeChar;
-    else
-    {
-        unicodeChar -= 0x10000;
-        *dest++ = 0xd800 | ((unicodeChar >> 10) & 0x3ff);
-        *dest++ = 0xdc00 | (unicodeChar & 0x3ff);
-    }
-}
-
-unsigned String::DecodeUTF16(const wchar_t*& src)
-{
-    if (src == nullptr)
-        return 0;
-
-    unsigned short word1 = *src++;
-
-    // Check if we are at a low surrogate
-    if (word1 >= 0xdc00 && word1 < 0xe000)
-    {
-        while (*src >= 0xdc00 && *src < 0xe000)
-            ++src;
-        return '?';
-    }
-
-    if (word1 < 0xd800 || word1 >= 0xe000)
-        return word1;
-    else
-    {
-        unsigned short word2 = *src++;
-        if (word2 < 0xdc00 || word2 >= 0xe000)
-        {
-            --src;
-            return '?';
-        }
-        else
-            return (((word1 & 0x3ff) << 10) | (word2 & 0x3ff)) + 0x10000;
-    }
-}
-#endif
-
 Vector<String> String::Split(const char* str, char separator, bool keepEmptyStrings)
 {
     Vector<String> ret;
@@ -1239,32 +1184,12 @@ WString::WString(const String& str) :
     length_(0),
     buffer_(nullptr)
 {
-#ifdef _WIN32
-    unsigned neededSize = 0;
-    wchar_t temp[3];
-
-    unsigned byteOffset = 0;
-    while (byteOffset < str.Length())
-    {
-        wchar_t* dest = temp;
-        String::EncodeUTF16(dest, str.NextUTF8Char(byteOffset));
-        neededSize += dest - temp;
-    }
-
-    Resize(neededSize);
-
-    byteOffset = 0;
-    wchar_t* dest = buffer_;
-    while (byteOffset < str.Length())
-        String::EncodeUTF16(dest, str.NextUTF8Char(byteOffset));
-#else
     Resize(str.LengthUTF8());
 
     unsigned byteOffset = 0;
     wchar_t* dest = buffer_;
     while (byteOffset < str.Length())
         *dest++ = (wchar_t)str.NextUTF8Char(byteOffset);
-#endif
 }
 
 WString::~WString()

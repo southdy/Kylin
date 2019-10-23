@@ -487,12 +487,6 @@ public:
     static void EncodeUTF8(char*& dest, unsigned unicodeChar);
     /// Decode Unicode character from UTF8. Pointer will be incremented.
     static unsigned DecodeUTF8(const char*& src);
-#ifdef _WIN32
-    /// Encode Unicode character to UTF16. Pointer will be incremented.
-    static void EncodeUTF16(wchar_t*& dest, unsigned unicodeChar);
-    /// Decode Unicode character from UTF16. Pointer will be incremented.
-    static unsigned DecodeUTF16(const wchar_t*& src);
-#endif
 
     /// Return length of a C string.
     static unsigned CStringLength(const char* str) { return str ? (unsigned)strlen(str) : 0; }

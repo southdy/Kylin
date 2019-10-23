@@ -95,9 +95,6 @@ inline void SetFPUState(unsigned control)
 namespace Urho3D
 {
 
-#ifdef _WIN32
-static bool consoleOpened = false;
-#endif
 static String currentLine;
 static Vector<String> arguments;
 static String miniDumpDir;
@@ -192,40 +189,12 @@ void ErrorExit(const String& message, int exitCode)
 
 void OpenConsoleWindow()
 {
-#ifdef _WIN32
-    if (consoleOpened)
-        return;
-
-    AllocConsole();
-
-    freopen("CONIN$", "r", stdin);
-    freopen("CONOUT$", "w", stdout);
-
-    consoleOpened = true;
-#endif
 }
 
 void PrintUnicode(const String& str, bool error)
 {
 #if !defined(__ANDROID__) && !defined(IOS) && !defined(TVOS)
-#ifdef _WIN32
-    // If the output stream has been redirected, use fprintf instead of WriteConsoleW,
-    // though it means that proper Unicode output will not work
-    FILE* out = error ? stderr : stdout;
-    if (!_isatty(_fileno(out)))
-        fprintf(out, "%s", str.CString());
-    else
-    {
-        HANDLE stream = GetStdHandle(error ? STD_ERROR_HANDLE : STD_OUTPUT_HANDLE);
-        if (stream == INVALID_HANDLE_VALUE)
-            return;
-        WString strW(str);
-        DWORD charsWritten;
-        WriteConsoleW(stream, strW.CString(), strW.Length(), &charsWritten, nullptr);
-    }
-#else
     fprintf(error ? stderr : stdout, "%s", str.CString());
-#endif
 #endif
 }
 
