@@ -51,25 +51,6 @@ static const char* shapeNames[] =
     "BusyArrow"
 };
 
-/// OS cursor shape lookup table matching cursor shape enumeration
-#if !defined(__ANDROID__) && !defined(IOS) && !defined(TVOS)
-static const int osCursorLookup[CS_MAX_SHAPES] =
-{
-    SDL_SYSTEM_CURSOR_ARROW,    // CS_NORMAL
-    SDL_SYSTEM_CURSOR_IBEAM,     // CS_IBEAM
-    SDL_SYSTEM_CURSOR_CROSSHAIR, // CS_CROSS
-    SDL_SYSTEM_CURSOR_SIZENS,   // CS_RESIZEVERTICAL
-    SDL_SYSTEM_CURSOR_SIZENESW, // CS_RESIZEDIAGONAL_TOPRIGHT
-    SDL_SYSTEM_CURSOR_SIZEWE,   // CS_RESIZEHORIZONTAL
-    SDL_SYSTEM_CURSOR_SIZENWSE, // CS_RESIZEDIAGONAL_TOPLEFT
-    SDL_SYSTEM_CURSOR_SIZEALL,   // CS_RESIZE_ALL
-    SDL_SYSTEM_CURSOR_HAND,     // CS_ACCEPTDROP
-    SDL_SYSTEM_CURSOR_NO,       // CS_REJECTDROP
-    SDL_SYSTEM_CURSOR_WAIT,   // CS_BUSY
-    SDL_SYSTEM_CURSOR_WAITARROW // CS_BUSY_ARROW
-};
-#endif
-
 extern const char* UI_CATEGORY;
 
 Cursor::Cursor(Context* context) :
@@ -254,52 +235,6 @@ VariantVector Cursor::GetShapesAttr() const
 
 void Cursor::ApplyOSCursorShape()
 {
-    // Mobile platforms do not support applying OS cursor shapes: comment out to avoid log error messages
-#if !defined(__ANDROID__) && !defined(IOS) && !defined(TVOS)
-    if (!osShapeDirty_ || !GetSubsystem<Input>()->IsMouseVisible() || GetSubsystem<UI>()->GetCursor() != this)
-        return;
-
-    CursorShapeInfo& info = shapeInfos_[shape_];
-
-    // Remove existing SDL cursor if is not a system shape while we should be using those, or vice versa
-    if (info.osCursor_ && info.systemDefined_ != useSystemShapes_)
-    {
-        SDL_FreeCursor(info.osCursor_);
-        info.osCursor_ = nullptr;
-    }
-
-    // Create SDL cursor now if necessary
-    if (!info.osCursor_)
-    {
-        // Create a system default shape
-        if (useSystemShapes_ && info.systemCursor_ >= 0 && info.systemCursor_ < CS_MAX_SHAPES)
-        {
-            info.osCursor_ = SDL_CreateSystemCursor((SDL_SystemCursor)osCursorLookup[info.systemCursor_]);
-            info.systemDefined_ = true;
-            if (!info.osCursor_)
-                URHO3D_LOGERROR("Could not create system cursor");
-        }
-        // Create from image
-        else if (info.image_)
-        {
-            SDL_Surface* surface = info.image_->GetSDLSurface(info.imageRect_);
-
-            if (surface)
-            {
-                info.osCursor_ = SDL_CreateColorCursor(surface, info.hotSpot_.x_, info.hotSpot_.y_);
-                info.systemDefined_ = false;
-                if (!info.osCursor_)
-                    URHO3D_LOGERROR("Could not create cursor from image " + info.image_->GetName());
-                SDL_FreeSurface(surface);
-            }
-        }
-    }
-
-    if (info.osCursor_)
-        SDL_SetCursor(info.osCursor_);
-
-    osShapeDirty_ = false;
-#endif
 }
 
 void Cursor::HandleMouseVisibleChanged(StringHash eventType, VariantMap& eventData)
