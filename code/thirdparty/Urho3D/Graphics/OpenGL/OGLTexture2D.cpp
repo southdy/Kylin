@@ -410,6 +410,13 @@ bool Texture2D::Create()
 
     levels_ = CheckMaxLevels(width_, height_, requestedLevels_);
 
+    if (!IsPowerOfTwo((unsigned)width_) || !IsPowerOfTwo((unsigned)height_))
+    {
+        levels_ = 1;
+        addressModes_[COORD_U] = ADDRESS_CLAMP;
+        addressModes_[COORD_V] = ADDRESS_CLAMP;
+    }
+
     // Set initial parameters, then unbind the texture
     UpdateParameters();
     graphics_->SetTexture(0, nullptr);

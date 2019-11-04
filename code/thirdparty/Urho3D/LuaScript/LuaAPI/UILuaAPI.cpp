@@ -701,14 +701,15 @@ static void tolua_reg_types (lua_State* tolua_S)
  tolua_usertype(tolua_S,"FileSelectorEntry");
  tolua_usertype(tolua_S,"Variant");
  tolua_usertype(tolua_S,"Component");
+ tolua_usertype(tolua_S,"ToolTip");
  tolua_usertype(tolua_S,"Node");
  tolua_usertype(tolua_S,"Texture");
- tolua_usertype(tolua_S,"ToolTip");
+ tolua_usertype(tolua_S,"Scene");
  tolua_usertype(tolua_S,"Viewport");
  tolua_usertype(tolua_S,"DragAndDropMode");
  tolua_usertype(tolua_S,"Texture2D");
  tolua_usertype(tolua_S,"View3D");
- tolua_usertype(tolua_S,"Scene");
+ tolua_usertype(tolua_S,"UIElement3D");
  tolua_usertype(tolua_S,"CheckBox");
  tolua_usertype(tolua_S,"StringHash");
  tolua_usertype(tolua_S,"Sprite");
@@ -719,7 +720,6 @@ static void tolua_reg_types (lua_State* tolua_S)
  tolua_usertype(tolua_S,"IntRect");
  tolua_usertype(tolua_S,"UI");
  tolua_usertype(tolua_S,"IntVector2");
- tolua_usertype(tolua_S,"UIElement3D");
  tolua_usertype(tolua_S,"UIComponent");
  tolua_usertype(tolua_S,"XMLFile");
  tolua_usertype(tolua_S,"Serializer");
