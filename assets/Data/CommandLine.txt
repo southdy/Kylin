@@ -1,1 +1,1 @@
-LuaScripts/06_SkeletalAnimation.lua
+LuaScripts/33_Urho2DSpriterAnimation.lua

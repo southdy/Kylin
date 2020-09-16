@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2008-2019 the Urho3D project.
+// Copyright (c) 2008-2020 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -130,7 +130,7 @@ private:
     List<SharedPtr<WorkItem> > poolItems_;
     /// Work item collection. Accessed only by the main thread.
     List<SharedPtr<WorkItem> > workItems_;
-    /// Work item prioritized queue for worker threads. Pointers are guaranteed to be valid (point to workItems.)
+    /// Work item prioritized queue for worker threads. Pointers are guaranteed to be valid (point to workItems).
     List<WorkItem*> queue_;
     /// Worker queue mutex.
     Mutex queueMutex_;
